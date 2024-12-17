@@ -38,18 +38,22 @@
 </template>
 
 <script>
+import { RouteName } from "@/router/enums";
 import recipes from "@/data/recipes.json";
 
 export default {
   props: {
-    id: { type: String, required: true },
+    id: {
+      type: String,
+      required: true,
+    },
   },
   computed: {
     recipe() {
       const recipe = recipes.find((recipe) => recipe.id === this.id);
 
       if (!recipe) {
-        this.$router.replace("/404");
+        this.$router.replace(RouteName.NOT_FOUND);
       }
 
       return recipe;
