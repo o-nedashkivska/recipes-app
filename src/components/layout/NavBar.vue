@@ -13,14 +13,14 @@
 </template>
 
 <script>
-import { RouteName } from "@/router/enums";
+  import { RouteName } from "@/router/enums";
 
-export default {
-  data() {
-    return {
-      homePageLink: RouteName.HOME,
-      recipesPageLink: RouteName.RECIPES,
-    };
-  },
-};
+  export default {
+    data() {
+      return {
+        homePageLink: RouteName.HOME,
+        recipesPageLink: RouteName.RECIPES,
+      };
+    },
+  };
 </script>

@@ -10,18 +10,18 @@
 </template>
 
 <script>
-export default {
-  props: {
-    title: { type: String, required: true },
-    subtitle: { type: String, required: true },
-  },
-};
+  export default {
+    props: {
+      title: { type: String, required: true },
+      subtitle: { type: String, required: true },
+    },
+  };
 </script>
 
 <style>
-.heading {
-  width: 50%;
-  min-width: 350px;
-  margin: 0 auto;
-}
+  .heading {
+    width: 50%;
+    min-width: 350px;
+    margin: 0 auto;
+  }
 </style>

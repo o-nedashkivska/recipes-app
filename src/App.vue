@@ -8,15 +8,15 @@
 </template>
 
 <script>
-import NavBar from "@/components/layout/NavBar.vue";
+  import NavBar from "@/components/layout/NavBar.vue";
 
-export default {
-  components: { NavBar },
-};
+  export default {
+    components: { NavBar },
+  };
 </script>
 
 <style>
-#app {
-  padding: 30px 0;
-}
+  #app {
+    padding: 30px 0;
+  }
 </style>

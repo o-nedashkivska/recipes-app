@@ -16,15 +16,15 @@
 </template>
 
 <script>
-import RecipeCard from "@/components/RecipeCard.vue";
-import recipes from "@/data/recipes.json";
+  import RecipeCard from "@/components/RecipeCard.vue";
+  import recipes from "@/data/recipes.json";
 
-export default {
-  components: {
-    RecipeCard,
-  },
-  data() {
-    return { recipes };
-  },
-};
+  export default {
+    components: {
+      RecipeCard,
+    },
+    data() {
+      return { recipes };
+    },
+  };
 </script>

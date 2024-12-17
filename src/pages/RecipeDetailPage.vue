@@ -3,14 +3,14 @@
 </template>
 
 <script>
-import RecipeDetail from "@/components/RecipeDetail.vue";
+  import RecipeDetail from "@/components/RecipeDetail.vue";
 
-export default {
-  components: {
-    RecipeDetail,
-  },
-  props: {
-    id: { type: String, required: true },
-  },
-};
+  export default {
+    components: {
+      RecipeDetail,
+    },
+    props: {
+      id: { type: String, required: true },
+    },
+  };
 </script>

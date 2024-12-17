@@ -38,47 +38,47 @@
 </template>
 
 <script>
-import { RouteName } from "@/router/enums";
-import recipes from "@/data/recipes.json";
+  import { RouteName } from "@/router/enums";
+  import recipes from "@/data/recipes.json";
 
-export default {
-  props: {
-    id: {
-      type: String,
-      required: true,
+  export default {
+    props: {
+      id: {
+        type: String,
+        required: true,
+      },
     },
-  },
-  computed: {
-    recipe() {
-      const recipe = recipes.find((recipe) => recipe.id === this.id);
+    computed: {
+      recipe() {
+        const recipe = recipes.find((recipe) => recipe.id === this.id);
 
-      if (!recipe) {
-        this.$router.replace(RouteName.NOT_FOUND);
-      }
+        if (!recipe) {
+          this.$router.replace(RouteName.NOT_FOUND);
+        }
 
-      return recipe;
+        return recipe;
+      },
     },
-  },
-};
+  };
 </script>
 
 <style>
-.recipe-detail {
-  width: 95%;
-  min-width: 325px;
-  margin: 0 auto;
-  border: none;
-}
-
-@media (min-width: 991.98px) {
   .recipe-detail {
-    width: 85%;
+    width: 95%;
+    min-width: 325px;
+    margin: 0 auto;
+    border: none;
   }
-}
 
-@media (min-width: 1399.98px) {
-  .recipe-detail {
-    max-width: 1300px;
+  @media (min-width: 991.98px) {
+    .recipe-detail {
+      width: 85%;
+    }
   }
-}
+
+  @media (min-width: 1399.98px) {
+    .recipe-detail {
+      max-width: 1300px;
+    }
+  }
 </style>

@@ -21,40 +21,40 @@
 </template>
 
 <script>
-export default {
-  props: {
-    id: {
-      type: String,
-      required: true,
+  export default {
+    props: {
+      id: {
+        type: String,
+        required: true,
+      },
+      title: {
+        type: String,
+        required: true,
+      },
+      category: {
+        type: String,
+        required: true,
+      },
+      instructions: {
+        type: String,
+        required: true,
+      },
+      image: {
+        type: String,
+        required: true,
+      },
+      tags: {
+        type: String,
+        default: null,
+      },
     },
-    title: {
-      type: String,
-      required: true,
+    computed: {
+      detailedPageLink() {
+        return "/recipes/" + this.id;
+      },
+      tagList() {
+        return this.tags.split(",");
+      },
     },
-    category: {
-      type: String,
-      required: true,
-    },
-    instructions: {
-      type: String,
-      required: true,
-    },
-    image: {
-      type: String,
-      required: true,
-    },
-    tags: {
-      type: String,
-      default: null,
-    },
-  },
-  computed: {
-    detailedPageLink() {
-      return "/recipes/" + this.id;
-    },
-    tagList() {
-      return this.tags.split(",");
-    },
-  },
-};
+  };
 </script>
