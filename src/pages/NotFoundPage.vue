@@ -1,6 +1,6 @@
 <template>
-  <InfoHeading title="Cookbook" subtitle="Hierarchical tree of recipes">
-    <b-button variant="warning" to="/recipes">Explore recipes</b-button>
+  <InfoHeading title="Not Found" subtitle="Page was not found">
+    <b-button variant="warning" to="/">Return to main page</b-button>
   </InfoHeading>
 </template>
 

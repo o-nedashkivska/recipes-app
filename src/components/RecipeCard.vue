@@ -1,6 +1,9 @@
 <template>
-  <b-card :title="title" :img-src="image" img-alt="Image" img-top class="h-100">
-    <b-card-text> Category: {{ category }} </b-card-text>
+  <b-card :img-src="image" img-alt="Image" img-top class="h-100">
+    <b-link :to="detailedPageLink">
+      <b-card-title>{{ title }}</b-card-title>
+    </b-link>
+    <b-card-text>Category: {{ category }}</b-card-text>
     <b-card-text v-if="tags">
       Tags:
       <b-badge
@@ -28,6 +31,9 @@ export default {
     tags: { type: String, default: null },
   },
   computed: {
+    detailedPageLink() {
+      return "/recipes/" + this.id;
+    },
     tagList() {
       return this.tags.split(",");
     },
