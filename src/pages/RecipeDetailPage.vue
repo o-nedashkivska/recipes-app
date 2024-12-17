@@ -3,7 +3,7 @@
 </template>
 
 <script>
-  import RecipeDetail from "@/components/RecipeDetail.vue";
+  import RecipeDetail from "@/components/RecipeDetail";
 
   export default {
     components: {

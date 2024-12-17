@@ -16,7 +16,7 @@
 </template>
 
 <script>
-  import RecipeCard from "@/components/RecipeCard.vue";
+  import RecipeCard from "@/components/RecipeCard";
   import recipes from "@/data/recipes.json";
 
   export default {

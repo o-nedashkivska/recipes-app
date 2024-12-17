@@ -7,7 +7,7 @@
 </template>
 
 <script>
-  import InfoHeading from "@/components/common/InfoHeading.vue";
+  import InfoHeading from "@/components/common/InfoHeading";
   import { RouteName } from "@/router/enums";
 
   export default {
