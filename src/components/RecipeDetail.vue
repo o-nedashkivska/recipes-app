@@ -38,10 +38,20 @@
 </template>
 
 <script>
+  import {
+    BCard,
+    BCardText,
+    BBadge,
+    BRow,
+    BCol,
+    BCardImg,
+    BCardBody,
+  } from "bootstrap-vue";
   import { RouteName } from "@/router/enums";
   import recipes from "@/data/recipes.json";
 
   export default {
+    components: { BCard, BRow, BCol, BCardImg, BCardBody, BCardText, BBadge },
     props: {
       id: {
         type: String,

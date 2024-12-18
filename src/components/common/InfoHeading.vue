@@ -10,10 +10,21 @@
 </template>
 
 <script>
+  import { BJumbotron } from "bootstrap-vue";
+
   export default {
+    components: {
+      BJumbotron,
+    },
     props: {
-      title: { type: String, required: true },
-      subtitle: { type: String, required: true },
+      title: {
+        type: String,
+        required: true,
+      },
+      subtitle: {
+        type: String,
+        required: true,
+      },
     },
   };
 </script>

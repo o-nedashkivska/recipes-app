@@ -13,9 +13,25 @@
 </template>
 
 <script>
+  import {
+    BNavbar,
+    BNavbarBrand,
+    BNavbarToggle,
+    BCollapse,
+    BNavbarNav,
+    BNavItem,
+  } from "bootstrap-vue";
   import { RouteName } from "@/router/enums";
 
   export default {
+    components: {
+      BNavbar,
+      BNavbarBrand,
+      BNavbarToggle,
+      BCollapse,
+      BNavbarNav,
+      BNavItem,
+    },
     data() {
       return {
         homePageLink: RouteName.HOME,

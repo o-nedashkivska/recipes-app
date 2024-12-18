@@ -21,7 +21,10 @@
 </template>
 
 <script>
+  import { BCard, BLink, BCardTitle, BCardText, BBadge } from "bootstrap-vue";
+
   export default {
+    components: { BCard, BLink, BCardTitle, BCardText, BBadge },
     props: {
       id: {
         type: String,

@@ -7,11 +7,13 @@
 </template>
 
 <script>
+  import { BButton } from "bootstrap-vue";
   import InfoHeading from "@/components/common/InfoHeading";
   import { RouteName } from "@/router/enums";
 
   export default {
     components: {
+      BButton,
       InfoHeading,
     },
     data() {

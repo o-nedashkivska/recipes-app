@@ -16,11 +16,15 @@
 </template>
 
 <script>
+  import { BCol, BContainer, BRow } from "bootstrap-vue";
   import RecipeCard from "@/components/RecipeCard";
   import recipes from "@/data/recipes.json";
 
   export default {
     components: {
+      BContainer,
+      BRow,
+      BCol,
       RecipeCard,
     },
     data() {
