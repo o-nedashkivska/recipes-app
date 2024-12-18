@@ -3,11 +3,7 @@
     <b-card no-body class="overflow-hidden recipe-detail">
       <b-row no-gutters>
         <b-col md="6">
-          <b-card-img
-            :src="recipe.image"
-            alt="Image"
-            class="rounded-0"
-          ></b-card-img>
+          <b-card-img :src="recipe.image" alt="Image" class="rounded-0" />
         </b-col>
         <b-col md="6">
           <b-card-body :title="recipe.title">
@@ -19,8 +15,9 @@
                 :key="tag"
                 variant="warning"
                 class="mr-1"
-                >{{ tag }}</b-badge
               >
+                {{ tag }}
+              </b-badge>
             </b-card-text>
             <b-card-text>
               <strong>Instructions:</strong>
@@ -28,8 +25,9 @@
             <b-card-text
               v-for="(instruction, index) in recipe.instructions.split('\r\n')"
               :key="index"
-              >{{ index + 1 }}. {{ instruction }}</b-card-text
             >
+              {{ index + 1 }}. {{ instruction }}
+            </b-card-text>
           </b-card-body>
         </b-col>
       </b-row>

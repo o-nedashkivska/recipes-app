@@ -6,13 +6,9 @@
     <b-card-text>Category: {{ category }}</b-card-text>
     <b-card-text v-if="tags">
       Tags:
-      <b-badge
-        v-for="tag in tagList"
-        :key="tag"
-        variant="warning"
-        class="mr-1"
-        >{{ tag }}</b-badge
-      >
+      <b-badge v-for="tag in tagList" :key="tag" variant="warning" class="mr-1">
+        {{ tag }}
+      </b-badge>
     </b-card-text>
     <template #footer>
       <small class="text-muted">Last updated 3 mins ago</small>

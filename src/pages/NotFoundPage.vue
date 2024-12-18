@@ -1,8 +1,8 @@
 <template>
   <InfoHeading title="Not Found" subtitle="Page was not found">
-    <b-button variant="warning" :to="homePageLink"
-      >Return to main page</b-button
-    >
+    <b-button variant="warning" :to="homePageLink">
+      Return to main page
+    </b-button>
   </InfoHeading>
 </template>
 

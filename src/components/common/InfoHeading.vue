@@ -5,7 +5,7 @@
     class="heading"
     bg-variant="white"
   >
-    <slot></slot>
+    <slot />
   </b-jumbotron>
 </template>
 
