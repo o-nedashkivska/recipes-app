@@ -1,7 +1,2 @@
-const RoutePath = {
-  HOME: "/",
-  RECIPES: "/recipes",
-  NOT_FOUND: "/404",
-};
-
-export { RoutePath };
+export { RouteName } from "./route-name";
+export { RoutePath } from "./route-path";

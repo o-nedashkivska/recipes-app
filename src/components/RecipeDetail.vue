@@ -45,7 +45,7 @@
     BCardImg,
     BCardBody,
   } from "bootstrap-vue";
-  import { RoutePath } from "@/router/enums";
+  import { RouteName } from "@/router/enums";
   import recipes from "@/data/recipes.json";
 
   export default {
@@ -61,7 +61,7 @@
         const recipe = recipes.find((recipe) => recipe.id === this.id);
 
         if (!recipe) {
-          this.$router.replace(RoutePath.NOT_FOUND);
+          this.$router.replace({ name: RouteName.NOT_FOUND });
         }
 
         return recipe;

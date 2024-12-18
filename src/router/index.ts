@@ -1,7 +1,7 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import HomePage from "@/pages/HomePage.vue";
-import { RoutePath } from "./enums";
+import { RouteName, RoutePath } from "./enums";
 
 Vue.use(VueRouter);
 
@@ -11,12 +11,12 @@ const router = new VueRouter({
   routes: [
     {
       path: RoutePath.HOME,
-      name: "home",
+      name: RouteName.HOME,
       component: HomePage,
     },
     {
       path: RoutePath.RECIPES,
-      name: "recipes",
+      name: RouteName.RECIPES,
       // route level code-splitting
       // this generates a separate chunk (RecipesPage.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
@@ -35,7 +35,7 @@ const router = new VueRouter({
     },
     {
       path: RoutePath.NOT_FOUND,
-      name: "404",
+      name: RouteName.NOT_FOUND,
       component: () => import("@/pages/NotFoundPage.vue"),
     },
   ],
