@@ -28,6 +28,11 @@ const router = new VueRouter({
       component: () => import("@/pages/RecipeDetailPage.vue"),
     },
     {
+      path: RoutePath.CREATE_RECIPE,
+      name: RouteName.CREATE_RECIPE,
+      component: () => import("@/pages/CreateRecipePage.vue"),
+    },
+    {
       path: "*",
       beforeEnter: (_to, _from, next) => {
         next(RoutePath.NOT_FOUND);
