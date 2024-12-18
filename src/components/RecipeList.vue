@@ -9,7 +9,14 @@
         xl="3"
         class="mb-4"
       >
-        <RecipeCard v-bind="recipe" />
+        <RecipeCard
+          :id="recipe.id"
+          :title="recipe.title"
+          :category="recipe.category"
+          :instructions="recipe.instructions"
+          :image="recipe.image"
+          :tags="recipe.tags"
+        />
       </b-col>
     </b-row>
   </b-container>
