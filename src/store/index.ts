@@ -28,6 +28,15 @@ const store = new Vuex.Store({
 
       state.recipes.push({ ...newRecipe, id, updatedAt });
     },
+    [Mutations.UPDATE_RECIPE](state, updatedRecipe) {
+      updatedRecipe.updatedAt = Date.now();
+
+      state.recipes = state.recipes.map((recipe) =>
+        recipe.id === updatedRecipe.id
+          ? Object.assign(recipe, updatedRecipe)
+          : recipe
+      );
+    },
     [Mutations.DELETE_RECIPE_BY_ID](state, id) {
       state.recipes = state.recipes.filter((recipe) => recipe.id !== id);
     },

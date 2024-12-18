@@ -24,10 +24,12 @@
             font-scale="1.25"
             class="icon"
             variant="secondary"
+            v-b-modal="modalId"
           />
         </div>
       </div>
     </template>
+    <NewRecipeModal :id="modalId" :recipeId="id" />
   </b-card>
 </template>
 
@@ -40,7 +42,9 @@
     BBadge,
     BIconTrash,
     BIconPencilSquare,
+    VBModal,
   } from "bootstrap-vue";
+  import NewRecipeModal from "@/components/NewRecipeModal";
   import { Mutations } from "@/store/enums";
   import { getTimeAgo } from "@/utils/index.ts";
 
@@ -53,6 +57,7 @@
       BBadge,
       BIconTrash,
       BIconPencilSquare,
+      NewRecipeModal,
     },
     props: {
       id: {
@@ -94,11 +99,17 @@
       tagList() {
         return this.tags.split(",");
       },
+      modalId() {
+        return `${this.id}-modal`;
+      },
     },
     methods: {
       deleteById() {
         this.$store.commit(Mutations.DELETE_RECIPE_BY_ID, this.id);
       },
+    },
+    directives: {
+      "b-modal": VBModal,
     },
   };
 </script>
