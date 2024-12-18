@@ -9,7 +9,7 @@
 <script>
   import { BButton } from "bootstrap-vue";
   import InfoHeading from "@/components/common/InfoHeading";
-  import { RoutePath } from "@/router/enums";
+  import { RouteName } from "@/router/enums";
 
   export default {
     components: {
@@ -18,7 +18,9 @@
     },
     data() {
       return {
-        homePageLink: RoutePath.HOME,
+        homePageLink: {
+          name: RouteName.HOME,
+        },
       };
     },
   };

@@ -19,7 +19,7 @@
     BNavbarNav,
     BNavItem,
   } from "bootstrap-vue";
-  import { RoutePath } from "@/router/enums";
+  import { RouteName } from "@/router/enums";
 
   export default {
     components: {
@@ -32,8 +32,12 @@
     },
     data() {
       return {
-        homePageLink: RoutePath.HOME,
-        recipesPageLink: RoutePath.RECIPES,
+        homePageLink: {
+          name: RouteName.HOME,
+        },
+        recipesPageLink: {
+          name: RouteName.RECIPES,
+        },
       };
     },
   };

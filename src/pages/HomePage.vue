@@ -1,15 +1,13 @@
 <template>
   <InfoHeading title="Cookbook" subtitle="Hierarchical tree of recipes">
-    <b-button variant="warning" :to="recipesPageLink">
-      Explore recipes
-    </b-button>
+    <b-button variant="warning" :to="recipesPageLink">Explore recipes</b-button>
   </InfoHeading>
 </template>
 
 <script>
   import { BButton } from "bootstrap-vue";
   import InfoHeading from "@/components/common/InfoHeading";
-  import { RoutePath } from "@/router/enums";
+  import { RouteName } from "@/router/enums";
 
   export default {
     components: {
@@ -18,7 +16,9 @@
     },
     data() {
       return {
-        recipesPageLink: RoutePath.RECIPES,
+        recipesPageLink: {
+          name: RouteName.RECIPES,
+        },
       };
     },
   };
