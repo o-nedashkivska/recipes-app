@@ -1,7 +1,7 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import HomePage from "@/pages/HomePage.vue";
-import { RouteName } from "./enums";
+import { RoutePath } from "./enums";
 
 Vue.use(VueRouter);
 
@@ -10,12 +10,12 @@ const router = new VueRouter({
   base: import.meta.env.BASE_URL,
   routes: [
     {
-      path: RouteName.HOME,
+      path: RoutePath.HOME,
       name: "home",
       component: HomePage,
     },
     {
-      path: RouteName.RECIPES,
+      path: RoutePath.RECIPES,
       name: "recipes",
       // route level code-splitting
       // this generates a separate chunk (RecipesPage.[hash].js) for this route
@@ -23,18 +23,18 @@ const router = new VueRouter({
       component: () => import("@/pages/RecipesPage.vue"),
     },
     {
-      path: `${RouteName.RECIPES}/:id`,
+      path: `${RoutePath.RECIPES}/:id`,
       props: true,
       component: () => import("@/pages/RecipeDetailPage.vue"),
     },
     {
       path: "*",
       beforeEnter: (_to, _from, next) => {
-        next(RouteName.NOT_FOUND);
+        next(RoutePath.NOT_FOUND);
       },
     },
     {
-      path: RouteName.NOT_FOUND,
+      path: RoutePath.NOT_FOUND,
       name: "404",
       component: () => import("@/pages/NotFoundPage.vue"),
     },
