@@ -11,16 +11,48 @@
       </b-badge>
     </b-card-text>
     <template #footer>
-      <small class="text-muted">Last updated 3 mins ago</small>
+      <div class="footer">
+        <small class="text-muted">Updated 3 mins ago</small>
+        <div class="icons">
+          <BIconTrash
+            font-scale="1.25"
+            class="icon"
+            variant="secondary"
+            @click="deleteById"
+          />
+          <BIconPencilSquare
+            font-scale="1.25"
+            class="icon"
+            variant="secondary"
+          />
+        </div>
+      </div>
     </template>
   </b-card>
 </template>
 
 <script>
-  import { BCard, BLink, BCardTitle, BCardText, BBadge } from "bootstrap-vue";
+  import {
+    BCard,
+    BLink,
+    BCardTitle,
+    BCardText,
+    BBadge,
+    BIconTrash,
+    BIconPencilSquare,
+  } from "bootstrap-vue";
+  import { Mutations } from "@/store/enums";
 
   export default {
-    components: { BCard, BLink, BCardTitle, BCardText, BBadge },
+    components: {
+      BCard,
+      BLink,
+      BCardTitle,
+      BCardText,
+      BBadge,
+      BIconTrash,
+      BIconPencilSquare,
+    },
     props: {
       id: {
         type: String,
@@ -55,5 +87,27 @@
         return this.tags.split(",");
       },
     },
+    methods: {
+      deleteById() {
+        this.$store.commit(Mutations.DELETE_RECIPE_BY_ID, this.id);
+      },
+    },
   };
 </script>
+
+<style scoped>
+  .footer {
+    display: flex;
+    justify-content: space-between;
+  }
+  .icons {
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    gap: 5px;
+  }
+  .icon:hover {
+    cursor: pointer;
+    transform: scale(1.2);
+  }
+</style>

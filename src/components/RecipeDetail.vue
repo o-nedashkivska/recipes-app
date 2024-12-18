@@ -46,7 +46,7 @@
     BCardBody,
   } from "bootstrap-vue";
   import { RouteName } from "@/router/enums";
-  import recipes from "@/data/recipes.json";
+  import { Getters } from "@/store/enums";
 
   export default {
     components: { BCard, BRow, BCol, BCardImg, BCardBody, BCardText, BBadge },
@@ -58,7 +58,7 @@
     },
     computed: {
       recipe() {
-        const recipe = recipes.find((recipe) => recipe.id === this.id);
+        const recipe = this.$store.getters[Getters.GET_RECIPE_BY_ID](this.id);
 
         if (!recipe) {
           this.$router.replace({ name: RouteName.NOT_FOUND });
@@ -70,7 +70,7 @@
   };
 </script>
 
-<style>
+<style scoped>
   .recipe-detail {
     width: 95%;
     min-width: 325px;

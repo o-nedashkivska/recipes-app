@@ -25,7 +25,7 @@
 <script>
   import { BCol, BContainer, BRow } from "bootstrap-vue";
   import RecipeCard from "@/components/RecipeCard";
-  import recipes from "@/data/recipes.json";
+  import { mapState } from "vuex";
 
   export default {
     components: {
@@ -34,8 +34,8 @@
       BCol,
       RecipeCard,
     },
-    data() {
-      return { recipes };
+    computed: {
+      ...mapState(["recipes"]),
     },
   };
 </script>
