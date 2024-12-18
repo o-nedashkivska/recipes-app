@@ -24,7 +24,9 @@ const store = new Vuex.Store({
       }
 
       const id = uuidv4();
-      state.recipes.push({ ...newRecipe, id });
+      const updatedAt = Date.now();
+
+      state.recipes.push({ ...newRecipe, id, updatedAt });
     },
     [Mutations.DELETE_RECIPE_BY_ID](state, id) {
       state.recipes = state.recipes.filter((recipe) => recipe.id !== id);

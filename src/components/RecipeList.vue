@@ -15,6 +15,7 @@
           :category="recipe.category"
           :instructions="recipe.instructions"
           :image="recipe.image"
+          :updatedAt="recipe.updatedAt"
           :tags="recipe.tags"
         />
       </b-col>

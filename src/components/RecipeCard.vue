@@ -12,7 +12,7 @@
     </b-card-text>
     <template #footer>
       <div class="footer">
-        <small class="text-muted">Updated 3 mins ago</small>
+        <small class="text-muted">Updated {{ updatedAtText }}</small>
         <div class="icons">
           <BIconTrash
             font-scale="1.25"
@@ -42,6 +42,7 @@
     BIconPencilSquare,
   } from "bootstrap-vue";
   import { Mutations } from "@/store/enums";
+  import { getTimeAgo } from "@/utils/index.ts";
 
   export default {
     components: {
@@ -74,6 +75,10 @@
         type: String,
         required: true,
       },
+      updatedAt: {
+        type: Number,
+        required: true,
+      },
       tags: {
         type: String,
         default: null,
@@ -82,6 +87,9 @@
     computed: {
       detailedPageLink() {
         return "/recipes/" + this.id;
+      },
+      updatedAtText() {
+        return getTimeAgo(this.updatedAt);
       },
       tagList() {
         return this.tags.split(",");
