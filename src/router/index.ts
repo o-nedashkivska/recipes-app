@@ -30,7 +30,7 @@ const router = new VueRouter({
     {
       path: "*",
       beforeEnter: (_to, _from, next) => {
-        next("/404");
+        next(RouteName.NOT_FOUND);
       },
     },
     {
