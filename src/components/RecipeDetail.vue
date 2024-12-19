@@ -46,7 +46,8 @@
     BCardBody,
   } from "bootstrap-vue";
   import { RouteName } from "@/router/enums";
-  import { Getters } from "@/store/enums";
+  import { Getters } from "@/store/modules/recipes/enums";
+  import { recipesModuleName } from "@/store";
 
   export default {
     components: { BCard, BRow, BCol, BCardImg, BCardBody, BCardText, BBadge },
@@ -58,7 +59,9 @@
     },
     computed: {
       recipe() {
-        const recipe = this.$store.getters[Getters.GET_RECIPE_BY_ID](this.id);
+        const recipe = this.$store.getters[
+          `${recipesModuleName}/${Getters.GET_RECIPE_BY_ID}`
+        ](this.id);
 
         if (!recipe) {
           this.$router.replace({ name: RouteName.NOT_FOUND });

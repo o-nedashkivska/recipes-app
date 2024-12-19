@@ -56,8 +56,9 @@
     BFormTextarea,
     BButton,
   } from "bootstrap-vue";
-  import { Mutations } from "@/store/enums";
+  import { Mutations } from "@/store/modules/recipes/enums";
   import { RouteName } from "@/router/enums";
+  import { recipesModuleName } from "@/store";
 
   export default {
     components: {
@@ -89,17 +90,23 @@
       };
     },
     computed: {
-      ...mapState(["categories", "tags"]),
+      ...mapState(recipesModuleName, ["categories", "tags"]),
     },
     methods: {
       onSubmit() {
         if (this.recipe?.id) {
-          this.$store.commit(Mutations.UPDATE_RECIPE, {
-            ...this.form,
-            id: this.recipe.id,
-          });
+          this.$store.commit(
+            `${recipesModuleName}/${Mutations.UPDATE_RECIPE}`,
+            {
+              ...this.form,
+              id: this.recipe.id,
+            }
+          );
         } else {
-          this.$store.commit(Mutations.ADD_RECIPE, this.form);
+          this.$store.commit(
+            `${recipesModuleName}/${Mutations.ADD_RECIPE}`,
+            this.form
+          );
         }
 
         if (this.onSuccess) {

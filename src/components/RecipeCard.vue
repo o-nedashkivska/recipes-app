@@ -45,8 +45,9 @@
     VBModal,
   } from "bootstrap-vue";
   import EditRecipeModal from "@/components/EditRecipeModal";
-  import { Mutations } from "@/store/enums";
+  import { Mutations } from "@/store/modules/recipes/enums";
   import { getTimeAgo } from "@/utils/index.ts";
+  import { recipesModuleName } from "@/store";
 
   export default {
     components: {
@@ -105,7 +106,10 @@
     },
     methods: {
       deleteById() {
-        this.$store.commit(Mutations.DELETE_RECIPE_BY_ID, this.id);
+        this.$store.commit(
+          `${recipesModuleName}/${Mutations.DELETE_RECIPE_BY_ID}`,
+          this.id
+        );
       },
     },
     directives: {

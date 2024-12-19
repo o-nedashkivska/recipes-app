@@ -44,12 +44,15 @@
 </template>
 
 <script>
-  import { mapState, mapActions } from "vuex";
+  import { createNamespacedHelpers } from "vuex";
   import { BCol, BContainer, BRow, BSpinner, BButton } from "bootstrap-vue";
   import RecipeCard from "@/components/RecipeCard";
-  import { Actions } from "@/store/enums";
+  import { Actions } from "@/store/modules/recipes/enums";
   import { DataStatus } from "@/enums";
   import { RouteName } from "@/router/enums";
+  import { recipesModuleName } from "@/store";
+
+  const { mapState, mapActions } = createNamespacedHelpers(recipesModuleName);
 
   export default {
     components: {

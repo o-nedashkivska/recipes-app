@@ -13,7 +13,8 @@
 <script>
   import { BModal } from "bootstrap-vue";
   import RecipeForm from "@/components/RecipeForm";
-  import { Getters } from "@/store/enums";
+  import { Getters } from "@/store/modules/recipes/enums";
+  import { recipesModuleName } from "@/store";
 
   export default {
     components: {
@@ -32,7 +33,9 @@
     },
     computed: {
       recipe() {
-        return this.$store.getters[Getters.GET_RECIPE_BY_ID](this.recipeId);
+        return this.$store.getters[
+          `${recipesModuleName}/${Getters.GET_RECIPE_BY_ID}`
+        ](this.recipeId);
       },
     },
     methods: {
