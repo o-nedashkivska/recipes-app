@@ -1,5 +1,5 @@
 import type { Recipe } from "@/types";
-import { DataStatus } from "@/enums";
+import type { DataStatus } from "@/enums";
 
 type State = {
   recipes: Recipe[];
