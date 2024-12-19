@@ -1,6 +1,11 @@
 <template>
   <InfoHeading title="Cookbook" subtitle="Hierarchical tree of recipes">
-    <b-button variant="warning" :to="recipesPageLink">Explore recipes</b-button>
+    <b-button variant="warning" :to="recipesPageLink" class="mr-3">
+      Explore recipes
+    </b-button>
+    <b-button variant="success" :to="createRecipePageLink">
+      Create new recipe
+    </b-button>
   </InfoHeading>
 </template>
 
@@ -18,6 +23,9 @@
       return {
         recipesPageLink: {
           name: RouteName.RECIPES,
+        },
+        createRecipePageLink: {
+          name: RouteName.CREATE_RECIPE,
         },
       };
     },

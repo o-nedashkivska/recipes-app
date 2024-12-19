@@ -15,7 +15,7 @@
   };
 </script>
 
-<style>
+<style scoped>
   #app {
     padding: 30px 0;
   }

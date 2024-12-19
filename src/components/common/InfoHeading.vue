@@ -29,7 +29,7 @@
   };
 </script>
 
-<style>
+<style scoped>
   .heading {
     width: 50%;
     min-width: 350px;
