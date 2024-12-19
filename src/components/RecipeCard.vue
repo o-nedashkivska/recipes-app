@@ -29,7 +29,7 @@
         </div>
       </div>
     </template>
-    <NewRecipeModal :id="modalId" :recipeId="id" />
+    <EditRecipeModal :id="modalId" :recipeId="id" />
   </b-card>
 </template>
 
@@ -44,7 +44,7 @@
     BIconPencilSquare,
     VBModal,
   } from "bootstrap-vue";
-  import NewRecipeModal from "@/components/NewRecipeModal";
+  import EditRecipeModal from "@/components/EditRecipeModal";
   import { Mutations } from "@/store/enums";
   import { getTimeAgo } from "@/utils/index.ts";
 
@@ -57,7 +57,7 @@
       BBadge,
       BIconTrash,
       BIconPencilSquare,
-      NewRecipeModal,
+      EditRecipeModal,
     },
     props: {
       id: {

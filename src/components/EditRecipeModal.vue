@@ -1,6 +1,12 @@
 <template>
-  <b-modal :id="id" title="Edit Recipe" hide-footer centered>
-    <RecipeForm :recipe="recipe" />
+  <b-modal
+    :id="id"
+    ref="edit-recipe-modal"
+    title="Edit Recipe"
+    hide-footer
+    centered
+  >
+    <RecipeForm :recipe="recipe" :onSuccess="onSuccess" />
   </b-modal>
 </template>
 
@@ -27,6 +33,11 @@
     computed: {
       recipe() {
         return this.$store.getters[Getters.GET_RECIPE_BY_ID](this.recipeId);
+      },
+    },
+    methods: {
+      onSuccess() {
+        this.$refs["edit-recipe-modal"].hide();
       },
     },
   };

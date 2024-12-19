@@ -72,6 +72,10 @@
       recipe: {
         default: null,
       },
+      onSuccess: {
+        type: Function,
+        default: null,
+      },
     },
     data() {
       return {
@@ -98,6 +102,10 @@
         } else {
           this.$store.commit(Mutations.ADD_RECIPE, this.form);
           this.$router.push({ name: RouteName.RECIPES });
+        }
+
+        if (this.onSuccess) {
+          this.onSuccess();
         }
       },
       onReset() {
