@@ -1,5 +1,5 @@
 <template>
-  <b-form @submit.prevent="onSubmit" @reset.prevent="onReset" v-if="show">
+  <b-form @submit.prevent="onSubmit" @reset.prevent="onReset">
     <b-form-group label="Title:" label-for="title">
       <b-form-input
         id="title"
@@ -86,7 +86,6 @@
           image: this.recipe?.image ?? "",
           instructions: this.recipe?.instructions ?? "",
         },
-        show: true,
       };
     },
     computed: {
@@ -101,7 +100,6 @@
           });
         } else {
           this.$store.commit(Mutations.ADD_RECIPE, this.form);
-          this.$router.push({ name: RouteName.RECIPES });
         }
 
         if (this.onSuccess) {
