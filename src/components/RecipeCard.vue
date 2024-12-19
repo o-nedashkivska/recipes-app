@@ -18,22 +18,27 @@
             font-scale="1.25"
             class="icon"
             variant="secondary"
-            @click="deleteById"
+            @click="deleteById(id)"
           />
           <BIconPencilSquare
             font-scale="1.25"
             class="icon"
             variant="secondary"
-            v-b-modal="modalId"
+            @click="openModal"
           />
         </div>
       </div>
     </template>
-    <EditRecipeModal :id="modalId" :recipeId="id" />
+    <EditRecipeModal
+      :recipe-id="id"
+      :is-visible="isModalVisible"
+      :on-hide-modal="hideModal"
+    />
   </b-card>
 </template>
 
 <script>
+  import { mapActions } from "vuex";
   import {
     BCard,
     BLink,
@@ -42,12 +47,11 @@
     BBadge,
     BIconTrash,
     BIconPencilSquare,
-    VBModal,
   } from "bootstrap-vue";
   import EditRecipeModal from "@/components/EditRecipeModal";
-  import { Mutations } from "@/store/modules/recipes/enums";
+  import { Actions } from "@/store/modules/recipes/types";
   import { getTimeAgo } from "@/utils/index.ts";
-  import { recipesModuleName } from "@/store";
+  import { recipesModuleName } from "@/store/modules";
 
   export default {
     components: {
@@ -90,6 +94,11 @@
         default: null,
       },
     },
+    data() {
+      return {
+        isModalVisible: false,
+      };
+    },
     computed: {
       detailedPageLink() {
         return "/recipes/" + this.id;
@@ -100,20 +109,17 @@
       tagList() {
         return this.tags.split(",");
       },
-      modalId() {
-        return `${this.id}-modal`;
-      },
     },
     methods: {
-      deleteById() {
-        this.$store.commit(
-          `${recipesModuleName}/${Mutations.DELETE_RECIPE_BY_ID}`,
-          this.id
-        );
+      ...mapActions(recipesModuleName, {
+        deleteById: Actions.DELETE_RECIPE_BY_ID,
+      }),
+      openModal() {
+        this.isModalVisible = true;
       },
-    },
-    directives: {
-      "b-modal": VBModal,
+      hideModal() {
+        this.isModalVisible = false;
+      },
     },
   };
 </script>

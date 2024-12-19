@@ -1,6 +1,5 @@
 /* eslint-env node */
 require("@rushstack/eslint-patch/modern-module-resolution");
-const vueTsEslintConfig = require("@vue/eslint-config-typescript");
 
 module.exports = {
   root: true,
@@ -8,7 +7,7 @@ module.exports = {
     "plugin:vue/recommended",
     "eslint:recommended",
     "@vue/eslint-config-prettier",
-    ...vueTsEslintConfig(),
+    "@vue/eslint-config-typescript",
   ],
   rules: {
     "prettier/prettier": "off",

@@ -47,7 +47,7 @@
 </template>
 
 <script>
-  import { mapState } from "vuex";
+  import { mapState, mapActions } from "vuex";
   import {
     BForm,
     BFormGroup,
@@ -56,9 +56,8 @@
     BFormTextarea,
     BButton,
   } from "bootstrap-vue";
-  import { Mutations } from "@/store/modules/recipes/enums";
-  import { RouteName } from "@/router/enums";
-  import { recipesModuleName } from "@/store";
+  import { Actions } from "@/store/modules/recipes/types";
+  import { recipesModuleName } from "@/store/modules";
 
   export default {
     components: {
@@ -71,7 +70,8 @@
     },
     props: {
       recipe: {
-        default: null,
+        type: Object,
+        default: () => ({}),
       },
       onSuccess: {
         type: Function,
@@ -81,11 +81,11 @@
     data() {
       return {
         form: {
-          title: this.recipe?.title ?? "",
-          category: this.recipe?.category ?? "",
-          tagList: this.recipe?.tagList ?? [],
-          image: this.recipe?.image ?? "",
-          instructions: this.recipe?.instructions ?? "",
+          title: this.recipe.title ?? "",
+          category: this.recipe.category ?? "",
+          tagList: this.recipe.tagList ?? [],
+          image: this.recipe.image ?? "",
+          instructions: this.recipe.instructions ?? "",
         },
       };
     },
@@ -93,20 +93,18 @@
       ...mapState(recipesModuleName, ["categories", "tags"]),
     },
     methods: {
+      ...mapActions(recipesModuleName, [
+        Actions.UPDATE_RECIPE,
+        Actions.ADD_RECIPE,
+      ]),
       onSubmit() {
         if (this.recipe?.id) {
-          this.$store.commit(
-            `${recipesModuleName}/${Mutations.UPDATE_RECIPE}`,
-            {
-              ...this.form,
-              id: this.recipe.id,
-            }
-          );
+          this[Actions.UPDATE_RECIPE]({
+            ...this.form,
+            id: this.recipe.id,
+          });
         } else {
-          this.$store.commit(
-            `${recipesModuleName}/${Mutations.ADD_RECIPE}`,
-            this.form
-          );
+          this[Actions.ADD_RECIPE](this.form);
         }
 
         if (this.onSuccess) {
@@ -114,11 +112,13 @@
         }
       },
       onReset() {
-        this.form.title = "";
-        this.form.category = "";
-        this.form.tagList = [];
-        this.form.image = "";
-        this.form.instructions = "";
+        this.form = {
+          title: "",
+          category: "",
+          tagList: [],
+          image: "",
+          instructions: "",
+        };
       },
     },
   };

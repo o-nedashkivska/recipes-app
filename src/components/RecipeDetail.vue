@@ -36,6 +36,7 @@
 </template>
 
 <script>
+  import { mapGetters } from "vuex";
   import {
     BCard,
     BCardText,
@@ -46,8 +47,8 @@
     BCardBody,
   } from "bootstrap-vue";
   import { RouteName } from "@/router/enums";
-  import { Getters } from "@/store/modules/recipes/enums";
-  import { recipesModuleName } from "@/store";
+  import { Getters } from "@/store/modules/recipes/types";
+  import { recipesModuleName } from "@/store/modules";
 
   export default {
     components: { BCard, BRow, BCol, BCardImg, BCardBody, BCardText, BBadge },
@@ -58,10 +59,11 @@
       },
     },
     computed: {
+      ...mapGetters(recipesModuleName, {
+        getRecipe: Getters.GET_RECIPE_BY_ID,
+      }),
       recipe() {
-        const recipe = this.$store.getters[
-          `${recipesModuleName}/${Getters.GET_RECIPE_BY_ID}`
-        ](this.id);
+        const recipe = this.getRecipe(this.id);
 
         if (!recipe) {
           this.$router.replace({ name: RouteName.NOT_FOUND });

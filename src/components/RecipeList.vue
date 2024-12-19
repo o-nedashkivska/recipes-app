@@ -34,7 +34,7 @@
             :category="recipe.category"
             :instructions="recipe.instructions"
             :image="recipe.image"
-            :updatedAt="recipe.updatedAt"
+            :updated-at="recipe.updatedAt"
             :tags="recipe.tags"
           />
         </b-col>
@@ -44,15 +44,13 @@
 </template>
 
 <script>
-  import { createNamespacedHelpers } from "vuex";
+  import { mapState, mapActions } from "vuex";
   import { BCol, BContainer, BRow, BSpinner, BButton } from "bootstrap-vue";
   import RecipeCard from "@/components/RecipeCard";
-  import { Actions } from "@/store/modules/recipes/enums";
+  import { Actions } from "@/store/modules/recipes/types";
   import { DataStatus } from "@/enums";
   import { RouteName } from "@/router/enums";
-  import { recipesModuleName } from "@/store";
-
-  const { mapState, mapActions } = createNamespacedHelpers(recipesModuleName);
+  import { recipesModuleName } from "@/store/modules";
 
   export default {
     components: {
@@ -71,23 +69,24 @@
       };
     },
     computed: {
-      ...mapState(["recipes", "error"]),
-      ...mapState({
-        isLoading: (state) =>
-          state.dataStatus === DataStatus.IDLE ||
-          state.dataStatus === DataStatus.PENDING,
-      }),
+      ...mapState(recipesModuleName, ["recipes", "dataStatus"]),
+      isLoading() {
+        return (
+          this.dataStatus === DataStatus.IDLE ||
+          this.dataStatus === DataStatus.PENDING
+        );
+      },
       isRecipesListEmpty() {
         return this.recipes.length === 0;
       },
-    },
-    methods: {
-      ...mapActions([Actions.FETCH_ALL_RECIPES]),
     },
     mounted() {
       if (this.isRecipesListEmpty) {
         this[Actions.FETCH_ALL_RECIPES]();
       }
+    },
+    methods: {
+      ...mapActions(recipesModuleName, [Actions.FETCH_ALL_RECIPES]),
     },
   };
 </script>

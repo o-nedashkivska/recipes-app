@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <h2 class="mb-3">New Recipe</h2>
-    <RecipeForm :onSuccess="onSuccess" />
+    <RecipeForm :on-success="onSuccess" />
   </div>
 </template>
 

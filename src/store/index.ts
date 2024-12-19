@@ -1,10 +1,8 @@
 import Vue from "vue";
 import Vuex from "vuex";
-import { recipesModule } from "./modules";
+import { recipesModule, recipesModuleName } from "./modules";
 
 Vue.use(Vuex);
-
-export const recipesModuleName = "recipes";
 
 const store = new Vuex.Store({
   modules: {
