@@ -134,15 +134,15 @@
         return this.versions.at(this.currentRecipeVersionIndex);
       },
       currentRecipeVersionLabel() {
-        if (this.currentRecipeVersionIndex === 0) {
-          return "First Version";
-        }
-
         if (
           this.currentRecipeVersionIndex === -1 ||
           this.currentRecipeVersionIndex === this.versions.length - 1
         ) {
           return "Latest Version";
+        }
+
+        if (this.currentRecipeVersionIndex === 0) {
+          return "First Version";
         }
 
         return this.currentRecipeVersion.label;
@@ -171,6 +171,7 @@
     min-width: 325px;
     margin: 0 auto;
     border: none;
+    padding-top: 30px;
   }
 
   @media (min-width: 991.98px) {

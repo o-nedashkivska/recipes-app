@@ -1,7 +1,7 @@
 <template>
   <div>
     <NavBar />
-    <main id="app">
+    <main>
       <router-view />
     </main>
   </div>
@@ -14,9 +14,3 @@
     components: { NavBar },
   };
 </script>
-
-<style scoped>
-  #app {
-    padding: 30px 0;
-  }
-</style>

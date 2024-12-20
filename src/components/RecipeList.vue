@@ -1,51 +1,64 @@
 <template>
-  <div>
-    <div
-      v-if="isLoading"
-      class="d-flex justify-content-center align-content-center mt-5"
-    >
-      <b-spinner variant="success" class="spinner" />
-    </div>
-
-    <div v-else-if="isRecipesListEmpty" class="d-flex flex-column w-50 info">
-      <h3>There are no recipes yet</h3>
-      <b-button
-        variant="success"
-        :to="createRecipePageLink"
-        class="info-button"
+  <b-overlay :show="isLoading" no-center>
+    <template #overlay>
+      <div
+        class="d-flex justify-content-center align-content-center mt-5 w-100 h-100"
       >
-        Create new recipe
-      </b-button>
-    </div>
+        <b-spinner variant="success" class="spinner" />
+      </div>
+    </template>
 
-    <b-container v-else>
-      <b-row>
-        <b-col
-          v-for="{ versions, id } in recipes"
-          :key="id"
-          md="6"
-          lg="4"
-          xl="3"
-          class="mb-4"
+    <div class="pt-4">
+      <div
+        v-if="!isLoading && isRecipesListEmpty"
+        class="d-flex flex-column w-50 info"
+      >
+        <h3>There are no recipes yet</h3>
+        <b-button
+          variant="success"
+          :to="createRecipePageLink"
+          class="info-button"
         >
-          <RecipeCard
-            :id="id"
-            :title="versions.at(-1).title"
-            :category="versions.at(-1).category"
-            :instructions="versions.at(-1).instructions"
-            :image="versions.at(-1).image"
-            :created-at="versions.at(-1).createdAt"
-            :tags="versions.at(-1).tags"
-          />
-        </b-col>
-      </b-row>
-    </b-container>
-  </div>
+          Create new recipe
+        </b-button>
+      </div>
+
+      <b-container v-if="!isRecipesListEmpty">
+        <b-row>
+          <b-col
+            v-for="{ versions, id } in recipes"
+            :key="id"
+            md="6"
+            lg="4"
+            xl="3"
+            class="mb-4"
+          >
+            <RecipeCard
+              :id="id"
+              :title="versions.at(-1).title"
+              :category="versions.at(-1).category"
+              :instructions="versions.at(-1).instructions"
+              :image="versions.at(-1).image"
+              :created-at="versions.at(-1).createdAt"
+              :tags="versions.at(-1).tags"
+            />
+          </b-col>
+        </b-row>
+      </b-container>
+    </div>
+  </b-overlay>
 </template>
 
 <script>
   import { mapState, mapActions } from "vuex";
-  import { BCol, BContainer, BRow, BSpinner, BButton } from "bootstrap-vue";
+  import {
+    BCol,
+    BContainer,
+    BRow,
+    BSpinner,
+    BButton,
+    BOverlay,
+  } from "bootstrap-vue";
   import RecipeCard from "@/components/RecipeCard";
   import { Actions } from "@/store/modules/recipes/types";
   import { DataStatus } from "@/enums";
@@ -60,6 +73,7 @@
       RecipeCard,
       BSpinner,
       BButton,
+      BOverlay,
     },
     data() {
       return {
@@ -81,7 +95,7 @@
       },
     },
     mounted() {
-      if (this.isRecipesListEmpty) {
+      if (this.dataStatus === DataStatus.IDLE) {
         this.fetchAllRecipes();
       }
     },
@@ -97,6 +111,9 @@
   .spinner {
     width: 100px;
     height: 100px;
+    left: 0;
+    right: 0;
+    padding-top: 50px;
   }
   .info {
     margin: 50px auto 0;
