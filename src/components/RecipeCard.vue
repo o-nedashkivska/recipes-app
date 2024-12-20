@@ -52,6 +52,7 @@
   import { Actions } from "@/store/modules/recipes/types";
   import { getTimeAgo } from "@/utils/index.ts";
   import { recipesModuleName } from "@/store/modules";
+  import { RouteName } from "@/router/enums";
 
   export default {
     components: {
@@ -101,7 +102,10 @@
     },
     computed: {
       detailedPageLink() {
-        return "/recipes/" + this.id;
+        return {
+          name: RouteName.RECIPE,
+          params: { id: this.id },
+        };
       },
       updatedAtText() {
         return getTimeAgo(this.updatedAt);

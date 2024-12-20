@@ -4,7 +4,7 @@
     title="Edit Recipe"
     hide-footer
     centered
-    @close="onHideModal"
+    @hide="onHideModal"
   >
     <RecipeForm :recipe="recipe" :on-success="onSuccess" />
   </b-modal>

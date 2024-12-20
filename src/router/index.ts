@@ -23,7 +23,8 @@ const router = new VueRouter({
       component: () => import("@/pages/RecipesPage.vue"),
     },
     {
-      path: `${RoutePath.RECIPES}/:id`,
+      path: RoutePath.RECIPE,
+      name: RouteName.RECIPE,
       props: true,
       component: () => import("@/pages/RecipeDetailPage.vue"),
     },
