@@ -12,7 +12,7 @@
     </b-card-text>
     <template #footer>
       <div class="footer">
-        <small class="text-muted">Updated {{ updatedAtText }}</small>
+        <small class="text-muted">Created {{ createdAtText }}</small>
         <div class="icons">
           <BIconTrash
             font-scale="1.25"
@@ -30,7 +30,12 @@
       </div>
     </template>
     <EditRecipeModal
-      :recipe-id="id"
+      :id="id"
+      :title="title"
+      :category="category"
+      :instructions="instructions"
+      :image="image"
+      :tag-list="tagList"
       :is-visible="isModalVisible"
       :on-hide-modal="hideModal"
     />
@@ -86,13 +91,13 @@
         type: String,
         required: true,
       },
-      updatedAt: {
+      createdAt: {
         type: Number,
         required: true,
       },
       tags: {
         type: String,
-        default: null,
+        default: "",
       },
     },
     data() {
@@ -107,11 +112,11 @@
           params: { id: this.id },
         };
       },
-      updatedAtText() {
-        return getTimeAgo(this.updatedAt);
+      createdAtText() {
+        return getTimeAgo(this.createdAt);
       },
       tagList() {
-        return this.tags.split(",");
+        return this.tags ? this.tags.split(",") : [];
       },
     },
     methods: {
