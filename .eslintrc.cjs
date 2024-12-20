@@ -7,6 +7,7 @@ module.exports = {
     "plugin:vue/recommended",
     "eslint:recommended",
     "@vue/eslint-config-prettier",
+    "@vue/eslint-config-typescript",
   ],
   rules: {
     "prettier/prettier": "off",

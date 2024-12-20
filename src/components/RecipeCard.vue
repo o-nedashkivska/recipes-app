@@ -11,16 +11,60 @@
       </b-badge>
     </b-card-text>
     <template #footer>
-      <small class="text-muted">Last updated 3 mins ago</small>
+      <div class="footer">
+        <small class="text-muted">Updated {{ updatedAtText }}</small>
+        <div class="icons">
+          <BIconTrash
+            font-scale="1.25"
+            class="icon"
+            variant="secondary"
+            @click="deleteById(id)"
+          />
+          <BIconPencilSquare
+            font-scale="1.25"
+            class="icon"
+            variant="secondary"
+            @click="openModal"
+          />
+        </div>
+      </div>
     </template>
+    <EditRecipeModal
+      :recipe-id="id"
+      :is-visible="isModalVisible"
+      :on-hide-modal="hideModal"
+    />
   </b-card>
 </template>
 
 <script>
-  import { BCard, BLink, BCardTitle, BCardText, BBadge } from "bootstrap-vue";
+  import { mapActions } from "vuex";
+  import {
+    BCard,
+    BLink,
+    BCardTitle,
+    BCardText,
+    BBadge,
+    BIconTrash,
+    BIconPencilSquare,
+  } from "bootstrap-vue";
+  import EditRecipeModal from "@/components/EditRecipeModal";
+  import { Actions } from "@/store/modules/recipes/types";
+  import { getTimeAgo } from "@/utils/index.ts";
+  import { recipesModuleName } from "@/store/modules";
+  import { RouteName } from "@/router/enums";
 
   export default {
-    components: { BCard, BLink, BCardTitle, BCardText, BBadge },
+    components: {
+      BCard,
+      BLink,
+      BCardTitle,
+      BCardText,
+      BBadge,
+      BIconTrash,
+      BIconPencilSquare,
+      EditRecipeModal,
+    },
     props: {
       id: {
         type: String,
@@ -42,18 +86,61 @@
         type: String,
         required: true,
       },
+      updatedAt: {
+        type: Number,
+        required: true,
+      },
       tags: {
         type: String,
         default: null,
       },
     },
+    data() {
+      return {
+        isModalVisible: false,
+      };
+    },
     computed: {
       detailedPageLink() {
-        return "/recipes/" + this.id;
+        return {
+          name: RouteName.RECIPE,
+          params: { id: this.id },
+        };
+      },
+      updatedAtText() {
+        return getTimeAgo(this.updatedAt);
       },
       tagList() {
         return this.tags.split(",");
       },
     },
+    methods: {
+      ...mapActions(recipesModuleName, {
+        deleteById: Actions.DELETE_RECIPE_BY_ID,
+      }),
+      openModal() {
+        this.isModalVisible = true;
+      },
+      hideModal() {
+        this.isModalVisible = false;
+      },
+    },
   };
 </script>
+
+<style scoped>
+  .footer {
+    display: flex;
+    justify-content: space-between;
+  }
+  .icons {
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    gap: 5px;
+  }
+  .icon:hover {
+    cursor: pointer;
+    transform: scale(1.2);
+  }
+</style>

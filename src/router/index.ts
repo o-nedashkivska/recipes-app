@@ -23,9 +23,15 @@ const router = new VueRouter({
       component: () => import("@/pages/RecipesPage.vue"),
     },
     {
-      path: `${RoutePath.RECIPES}/:id`,
+      path: RoutePath.RECIPE,
+      name: RouteName.RECIPE,
       props: true,
       component: () => import("@/pages/RecipeDetailPage.vue"),
+    },
+    {
+      path: RoutePath.CREATE_RECIPE,
+      name: RouteName.CREATE_RECIPE,
+      component: () => import("@/pages/CreateRecipePage.vue"),
     },
     {
       path: "*",
