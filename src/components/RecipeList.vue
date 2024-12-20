@@ -21,21 +21,21 @@
     <b-container v-else>
       <b-row>
         <b-col
-          v-for="recipe in recipes"
-          :key="recipe.id"
+          v-for="{ versions, id } in recipes"
+          :key="id"
           md="6"
           lg="4"
           xl="3"
           class="mb-4"
         >
           <RecipeCard
-            :id="recipe.id"
-            :title="recipe.title"
-            :category="recipe.category"
-            :instructions="recipe.instructions"
-            :image="recipe.image"
-            :updated-at="recipe.updatedAt"
-            :tags="recipe.tags"
+            :id="id"
+            :title="versions.at(-1).title"
+            :category="versions.at(-1).category"
+            :instructions="versions.at(-1).instructions"
+            :image="versions.at(-1).image"
+            :created-at="versions.at(-1).createdAt"
+            :tags="versions.at(-1).tags"
           />
         </b-col>
       </b-row>

@@ -69,9 +69,29 @@
       BButton,
     },
     props: {
-      recipe: {
-        type: Object,
-        default: () => ({}),
+      id: {
+        type: String,
+        default: "",
+      },
+      title: {
+        type: String,
+        default: "",
+      },
+      category: {
+        type: String,
+        default: "",
+      },
+      instructions: {
+        type: String,
+        default: "",
+      },
+      image: {
+        type: String,
+        default: "",
+      },
+      tagsList: {
+        type: Array,
+        default: () => [],
       },
       onSuccess: {
         type: Function,
@@ -81,11 +101,11 @@
     data() {
       return {
         form: {
-          title: this.recipe.title ?? "",
-          category: this.recipe.category ?? "",
-          tagList: this.recipe.tagList ?? [],
-          image: this.recipe.image ?? "",
-          instructions: this.recipe.instructions ?? "",
+          title: this.title,
+          category: this.category,
+          tags: this.tagList,
+          image: this.image,
+          instructions: this.instructions,
         },
       };
     },
@@ -98,10 +118,10 @@
         addRecipe: Actions.ADD_RECIPE,
       }),
       onSubmit() {
-        if (this.recipe?.id) {
+        if (this.id) {
           this.updateRecipe({
             ...this.form,
-            id: this.recipe.id,
+            id: this.id,
           });
         } else {
           this.addRecipe(this.form);
