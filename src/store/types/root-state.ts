@@ -1,4 +1,4 @@
-import { RecipesState } from "../modules";
+import type { RecipesState } from "../modules";
 
 type RootState = {
   recipes: RecipesState;
