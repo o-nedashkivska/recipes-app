@@ -93,18 +93,18 @@
       ...mapState(recipesModuleName, ["categories", "tags"]),
     },
     methods: {
-      ...mapActions(recipesModuleName, [
-        Actions.UPDATE_RECIPE,
-        Actions.ADD_RECIPE,
-      ]),
+      ...mapActions(recipesModuleName, {
+        updateRecipe: Actions.UPDATE_RECIPE,
+        addRecipe: Actions.ADD_RECIPE,
+      }),
       onSubmit() {
         if (this.recipe?.id) {
-          this[Actions.UPDATE_RECIPE]({
+          this.updateRecipe({
             ...this.form,
             id: this.recipe.id,
           });
         } else {
-          this[Actions.ADD_RECIPE](this.form);
+          this.addRecipe(this.form);
         }
 
         if (this.onSuccess) {

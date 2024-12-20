@@ -82,11 +82,13 @@
     },
     mounted() {
       if (this.isRecipesListEmpty) {
-        this[Actions.FETCH_ALL_RECIPES]();
+        this.fetchAllRecipes();
       }
     },
     methods: {
-      ...mapActions(recipesModuleName, [Actions.FETCH_ALL_RECIPES]),
+      ...mapActions(recipesModuleName, {
+        fetchAllRecipes: Actions.FETCH_ALL_RECIPES,
+      }),
     },
   };
 </script>

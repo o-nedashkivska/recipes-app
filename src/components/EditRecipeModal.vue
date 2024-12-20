@@ -23,7 +23,10 @@
       RecipeForm,
     },
     props: {
-      isVisible: Boolean,
+      isVisible: {
+        type: Boolean,
+        default: false,
+      },
       recipeId: {
         type: String,
         required: true,
