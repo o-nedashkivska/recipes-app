@@ -23,7 +23,7 @@
             font-scale="1.25"
             class="icon"
             variant="secondary"
-            @click="deleteById(id)"
+            @click="deleteById(recipe.id)"
           />
           <BIconPencilSquare
             font-scale="1.25"

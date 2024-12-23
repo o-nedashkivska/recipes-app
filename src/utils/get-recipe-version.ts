@@ -26,7 +26,7 @@ const getRecipeVersion = (recipe: Recipe, index: number) => {
         const value = recipe.versions[currentIndex][field];
 
         if (value) {
-          currentVersion[field] = value;
+          Object.assign(currentVersion, { [field]: value });
           break;
         }
 
