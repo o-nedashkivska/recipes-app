@@ -98,8 +98,8 @@
       BButton,
     },
     props: {
-      id: {
-        type: String,
+      recipe: {
+        type: Object,
         required: true,
       },
     },
@@ -113,13 +113,7 @@
         getRecipe: Getters.GET_RECIPE_BY_ID,
       }),
       versions() {
-        const recipe = this.getRecipe(this.id);
-
-        if (!recipe) {
-          return this.$router.replace({ name: RouteName.NOT_FOUND });
-        }
-
-        return recipe.versions.map((version, index, versions) => {
+        return this.recipe.versions.map((version, index, versions) => {
           return {
             ...version,
             label: formatDateAndTime(version.createdAt),
@@ -156,7 +150,7 @@
         this.$router.push({
           name: RouteName.RECIPES,
         });
-        this.deleteById(this.id);
+        this.deleteById(this.recipe.id);
       },
       selectVersion(index) {
         this.currentRecipeVersionIndex = index;

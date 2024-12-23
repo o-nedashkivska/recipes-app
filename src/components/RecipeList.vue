@@ -1,9 +1,7 @@
 <template>
   <b-overlay :show="isLoading" no-center>
     <template #overlay>
-      <div
-        class="d-flex justify-content-center align-content-center mt-5 w-100 h-100"
-      >
+      <div class="d-flex justify-content-center mt-5">
         <b-spinner variant="success" class="spinner" />
       </div>
     </template>
@@ -50,7 +48,7 @@
 </template>
 
 <script>
-  import { mapState, mapActions } from "vuex";
+  import { mapState, mapGetters, mapActions } from "vuex";
   import {
     BCol,
     BContainer,
@@ -60,7 +58,7 @@
     BOverlay,
   } from "bootstrap-vue";
   import RecipeCard from "@/components/RecipeCard";
-  import { Actions } from "@/store/modules/recipes/types";
+  import { Actions, Getters } from "@/store/modules/recipes/types";
   import { DataStatus } from "@/enums";
   import { RouteName } from "@/router/enums";
   import { recipesModuleName } from "@/store/modules";
@@ -84,12 +82,9 @@
     },
     computed: {
       ...mapState(recipesModuleName, ["recipes", "dataStatus"]),
-      isLoading() {
-        return (
-          this.dataStatus === DataStatus.IDLE ||
-          this.dataStatus === DataStatus.PENDING
-        );
-      },
+      ...mapGetters(recipesModuleName, {
+        isLoading: Getters.IS_LOADING,
+      }),
       isRecipesListEmpty() {
         return this.recipes.length === 0;
       },
@@ -111,9 +106,6 @@
   .spinner {
     width: 100px;
     height: 100px;
-    left: 0;
-    right: 0;
-    padding-top: 50px;
   }
   .info {
     margin: 50px auto 0;
