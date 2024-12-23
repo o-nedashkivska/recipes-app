@@ -84,7 +84,7 @@
     },
     data() {
       return {
-        form: { ...lastRecipeVersion },
+        form: { ...this.lastRecipeVersion },
       };
     },
     computed: {
