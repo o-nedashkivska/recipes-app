@@ -57,6 +57,9 @@
           >
             {{ index + 1 }}. {{ instruction }}
           </b-card-text>
+          <b-card-text class="text-muted font-italic text-right">
+            Created at {{ createdAtText }}
+          </b-card-text>
         </b-card-body>
       </b-col>
     </b-row>
@@ -64,7 +67,7 @@
 </template>
 
 <script>
-  import { mapGetters, mapActions } from "vuex";
+  import { mapActions } from "vuex";
   import {
     BCard,
     BCardText,
@@ -78,10 +81,10 @@
     BDropdownItem,
     BButton,
   } from "bootstrap-vue";
-  import { RouteName } from "@/router/enums";
-  import { Getters, Actions } from "@/store/modules/recipes/types";
   import { recipesModuleName } from "@/store/modules";
-  import { formatDateAndTime } from "@/utils";
+  import { Actions } from "@/store/modules/recipes/types";
+  import { RouteName } from "@/router/enums";
+  import { formatDateAndTime, getTimeAgo, getRecipeVersion } from "@/utils";
 
   export default {
     components: {
@@ -109,9 +112,6 @@
       };
     },
     computed: {
-      ...mapGetters(recipesModuleName, {
-        getRecipe: Getters.GET_RECIPE_BY_ID,
-      }),
       versions() {
         return this.recipe.versions.map((version, index, versions) => {
           return {
@@ -125,7 +125,7 @@
         });
       },
       currentRecipeVersion() {
-        return this.versions.at(this.currentRecipeVersionIndex);
+        return getRecipeVersion(this.recipe, this.currentRecipeVersionIndex);
       },
       currentRecipeVersionLabel() {
         if (
@@ -139,7 +139,10 @@
           return "First Version";
         }
 
-        return this.currentRecipeVersion.label;
+        return this.versions[this.currentRecipeVersionIndex].label;
+      },
+      createdAtText() {
+        return getTimeAgo(this.currentRecipeVersion.createdAt);
       },
     },
     methods: {

@@ -119,10 +119,19 @@
       }),
       onSubmit() {
         if (this.id) {
-          this.updateRecipe({
-            ...this.form,
+          const updatedRecipe = {
             id: this.id,
+          };
+
+          const fields = ["title", "category", "image", "instructions"];
+
+          fields.forEach((field) => {
+            if (this[field] !== this.form[field]) {
+              updatedRecipe[field] = this.form[field];
+            }
           });
+
+          this.updateRecipe(updatedRecipe);
         } else {
           this.addRecipe(this.form);
         }

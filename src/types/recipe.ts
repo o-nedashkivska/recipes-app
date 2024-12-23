@@ -12,4 +12,4 @@ type Recipe = {
   versions: RecipeVersion[];
 };
 
-export type { Recipe };
+export type { Recipe, RecipeVersion };

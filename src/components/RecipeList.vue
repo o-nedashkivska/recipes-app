@@ -24,22 +24,14 @@
       <b-container v-if="!isRecipesListEmpty">
         <b-row>
           <b-col
-            v-for="{ versions, id } in recipes"
-            :key="id"
+            v-for="recipe in recipes"
+            :key="recipe.id"
             md="6"
             lg="4"
             xl="3"
             class="mb-4"
           >
-            <RecipeCard
-              :id="id"
-              :title="versions.at(-1).title"
-              :category="versions.at(-1).category"
-              :instructions="versions.at(-1).instructions"
-              :image="versions.at(-1).image"
-              :created-at="versions.at(-1).createdAt"
-              :tags="versions.at(-1).tags"
-            />
+            <RecipeCard :recipe="recipe" />
           </b-col>
         </b-row>
       </b-container>
@@ -58,10 +50,10 @@
     BOverlay,
   } from "bootstrap-vue";
   import RecipeCard from "@/components/RecipeCard";
-  import { Actions, Getters } from "@/store/modules/recipes/types";
-  import { DataStatus } from "@/enums";
-  import { RouteName } from "@/router/enums";
   import { recipesModuleName } from "@/store/modules";
+  import { Getters, Actions } from "@/store/modules/recipes/types";
+  import { RouteName } from "@/router/enums";
+  import { DataStatus } from "@/enums";
 
   export default {
     components: {

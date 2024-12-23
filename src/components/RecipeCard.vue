@@ -1,10 +1,15 @@
 <template>
-  <b-card :img-src="image" img-alt="Image" img-top class="h-100">
+  <b-card
+    :img-src="lastRecipeVersion.image"
+    img-alt="Image"
+    img-top
+    class="h-100"
+  >
     <b-link :to="detailedPageLink">
-      <b-card-title>{{ title }}</b-card-title>
+      <b-card-title>{{ lastRecipeVersion.title }}</b-card-title>
     </b-link>
-    <b-card-text>Category: {{ category }}</b-card-text>
-    <b-card-text v-if="tags">
+    <b-card-text>Category: {{ lastRecipeVersion.category }}</b-card-text>
+    <b-card-text v-if="lastRecipeVersion.tags">
       Tags:
       <b-badge v-for="tag in tagList" :key="tag" variant="warning" class="mr-1">
         {{ tag }}
@@ -30,11 +35,11 @@
       </div>
     </template>
     <EditRecipeModal
-      :id="id"
-      :title="title"
-      :category="category"
-      :instructions="instructions"
-      :image="image"
+      :id="recipe.id"
+      :title="lastRecipeVersion.title"
+      :category="lastRecipeVersion.category"
+      :instructions="lastRecipeVersion.instructions"
+      :image="lastRecipeVersion.image"
       :tag-list="tagList"
       :is-visible="isModalVisible"
       :on-hide-modal="hideModal"
@@ -54,10 +59,10 @@
     BIconPencilSquare,
   } from "bootstrap-vue";
   import EditRecipeModal from "@/components/EditRecipeModal";
-  import { Actions } from "@/store/modules/recipes/types";
-  import { getTimeAgo } from "@/utils/index.ts";
   import { recipesModuleName } from "@/store/modules";
+  import { Actions } from "@/store/modules/recipes/types";
   import { RouteName } from "@/router/enums";
+  import { getTimeAgo, getRecipeVersion } from "@/utils";
 
   export default {
     components: {
@@ -71,33 +76,9 @@
       EditRecipeModal,
     },
     props: {
-      id: {
-        type: String,
+      recipe: {
+        type: Object,
         required: true,
-      },
-      title: {
-        type: String,
-        required: true,
-      },
-      category: {
-        type: String,
-        required: true,
-      },
-      instructions: {
-        type: String,
-        required: true,
-      },
-      image: {
-        type: String,
-        required: true,
-      },
-      createdAt: {
-        type: Number,
-        required: true,
-      },
-      tags: {
-        type: String,
-        default: "",
       },
     },
     data() {
@@ -106,17 +87,22 @@
       };
     },
     computed: {
+      lastRecipeVersion() {
+        return getRecipeVersion(this.recipe, -1);
+      },
+      createdAtText() {
+        return getTimeAgo(this.lastRecipeVersion.createdAt);
+      },
+      tagList() {
+        return this.lastRecipeVersion.tags
+          ? this.lastRecipeVersion.tags.split(",")
+          : [];
+      },
       detailedPageLink() {
         return {
           name: RouteName.RECIPE,
-          params: { id: this.id },
+          params: { id: this.recipe.id },
         };
-      },
-      createdAtText() {
-        return getTimeAgo(this.createdAt);
-      },
-      tagList() {
-        return this.tags ? this.tags.split(",") : [];
       },
     },
     methods: {
