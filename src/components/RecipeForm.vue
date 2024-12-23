@@ -73,25 +73,9 @@
         type: String,
         default: "",
       },
-      title: {
-        type: String,
-        default: "",
-      },
-      category: {
-        type: String,
-        default: "",
-      },
-      instructions: {
-        type: String,
-        default: "",
-      },
-      image: {
-        type: String,
-        default: "",
-      },
-      tagsList: {
-        type: Array,
-        default: () => [],
+      lastRecipeVersion: {
+        type: Object,
+        required: true,
       },
       onSuccess: {
         type: Function,
@@ -100,13 +84,7 @@
     },
     data() {
       return {
-        form: {
-          title: this.title,
-          category: this.category,
-          tags: this.tagList,
-          image: this.image,
-          instructions: this.instructions,
-        },
+        form: { ...lastRecipeVersion },
       };
     },
     computed: {
@@ -126,7 +104,7 @@
           const fields = ["title", "category", "image", "instructions"];
 
           fields.forEach((field) => {
-            if (this[field] !== this.form[field]) {
+            if (this.lastRecipeVersion[field] !== this.form[field]) {
               updatedRecipe[field] = this.form[field];
             }
           });

@@ -36,11 +36,7 @@
     </template>
     <EditRecipeModal
       :id="recipe.id"
-      :title="lastRecipeVersion.title"
-      :category="lastRecipeVersion.category"
-      :instructions="lastRecipeVersion.instructions"
-      :image="lastRecipeVersion.image"
-      :tag-list="tagList"
+      :last-recipe-version="lastRecipeVersion"
       :is-visible="isModalVisible"
       :on-hide-modal="hideModal"
     />

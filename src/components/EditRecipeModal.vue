@@ -8,11 +8,7 @@
   >
     <RecipeForm
       :id="id"
-      :title="title"
-      :category="category"
-      :instructions="instructions"
-      :image="image"
-      :tag-list="tagList"
+      :last-recipe-version="lastRecipeVersion"
       :on-success="onSuccess"
     />
   </b-modal>
@@ -32,24 +28,8 @@
         type: String,
         required: true,
       },
-      title: {
-        type: String,
-        required: true,
-      },
-      category: {
-        type: String,
-        required: true,
-      },
-      instructions: {
-        type: String,
-        required: true,
-      },
-      image: {
-        type: String,
-        required: true,
-      },
-      tagList: {
-        type: Array,
+      lastRecipeVersion: {
+        type: Object,
         required: true,
       },
       isVisible: {
