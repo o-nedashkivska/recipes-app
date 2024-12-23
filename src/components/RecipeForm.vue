@@ -75,7 +75,7 @@
       },
       lastRecipeVersion: {
         type: Object,
-        required: true,
+        default: () => ({}),
       },
       onSuccess: {
         type: Function,

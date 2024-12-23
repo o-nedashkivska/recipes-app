@@ -28,7 +28,7 @@ const mutations: MutationTree<State> = {
           {
             ...newRecipe,
             createdAt,
-            image: newRecipe.image === "" ? DEFAULT_IMAGE : newRecipe.image,
+            image: newRecipe.image ?? DEFAULT_IMAGE,
           },
         ],
       },
