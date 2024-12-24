@@ -4,18 +4,19 @@
     title="Edit Recipe"
     hide-footer
     centered
-    @hide="onHideModal"
+    @hide="$emit('hide-modal')"
   >
-    <RecipeForm :recipe="recipe" :on-success="onSuccess" />
+    <RecipeForm
+      :id="id"
+      :last-recipe-version="lastRecipeVersion"
+      :on-success="onSuccess"
+    />
   </b-modal>
 </template>
 
 <script>
-  import { mapGetters } from "vuex";
   import { BModal } from "bootstrap-vue";
   import RecipeForm from "@/components/RecipeForm";
-  import { Getters } from "@/store/modules/recipes/types";
-  import { recipesModuleName } from "@/store/modules";
 
   export default {
     components: {
@@ -23,30 +24,22 @@
       RecipeForm,
     },
     props: {
+      id: {
+        type: String,
+        required: true,
+      },
+      lastRecipeVersion: {
+        type: Object,
+        required: true,
+      },
       isVisible: {
         type: Boolean,
         default: false,
       },
-      recipeId: {
-        type: String,
-        required: true,
-      },
-      onHideModal: {
-        type: Function,
-        default: () => {},
-      },
-    },
-    computed: {
-      ...mapGetters(recipesModuleName, {
-        getRecipe: Getters.GET_RECIPE_BY_ID,
-      }),
-      recipe() {
-        return this.getRecipe(this.recipeId);
-      },
     },
     methods: {
       onSuccess() {
-        this.onHideModal();
+        this.$emit("hide-modal");
       },
     },
   };

@@ -69,7 +69,11 @@
       BButton,
     },
     props: {
-      recipe: {
+      id: {
+        type: String,
+        default: "",
+      },
+      lastRecipeVersion: {
         type: Object,
         default: () => ({}),
       },
@@ -80,13 +84,7 @@
     },
     data() {
       return {
-        form: {
-          title: this.recipe.title ?? "",
-          category: this.recipe.category ?? "",
-          tagList: this.recipe.tagList ?? [],
-          image: this.recipe.image ?? "",
-          instructions: this.recipe.instructions ?? "",
-        },
+        form: { ...this.lastRecipeVersion },
       };
     },
     computed: {
@@ -98,11 +96,20 @@
         addRecipe: Actions.ADD_RECIPE,
       }),
       onSubmit() {
-        if (this.recipe?.id) {
-          this.updateRecipe({
-            ...this.form,
-            id: this.recipe.id,
+        if (this.id) {
+          const updatedRecipe = {
+            id: this.id,
+          };
+
+          const fields = ["title", "category", "image", "instructions"];
+
+          fields.forEach((field) => {
+            if (this.lastRecipeVersion[field] !== this.form[field]) {
+              updatedRecipe[field] = this.form[field];
+            }
           });
+
+          this.updateRecipe(updatedRecipe);
         } else {
           this.addRecipe(this.form);
         }

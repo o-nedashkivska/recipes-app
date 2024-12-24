@@ -1,10 +1,15 @@
 <template>
-  <b-card :img-src="image" img-alt="Image" img-top class="h-100">
+  <b-card
+    :img-src="lastRecipeVersion.image"
+    img-alt="Image"
+    img-top
+    class="h-100"
+  >
     <b-link :to="detailedPageLink">
-      <b-card-title>{{ title }}</b-card-title>
+      <b-card-title>{{ lastRecipeVersion.title }}</b-card-title>
     </b-link>
-    <b-card-text>Category: {{ category }}</b-card-text>
-    <b-card-text v-if="tags">
+    <b-card-text>Category: {{ lastRecipeVersion.category }}</b-card-text>
+    <b-card-text v-if="lastRecipeVersion.tags">
       Tags:
       <b-badge v-for="tag in tagList" :key="tag" variant="warning" class="mr-1">
         {{ tag }}
@@ -12,13 +17,13 @@
     </b-card-text>
     <template #footer>
       <div class="footer">
-        <small class="text-muted">Updated {{ updatedAtText }}</small>
+        <small class="text-muted">Created {{ createdAtText }}</small>
         <div class="icons">
           <BIconTrash
             font-scale="1.25"
             class="icon"
             variant="secondary"
-            @click="deleteById(id)"
+            @click="deleteRecipe"
           />
           <BIconPencilSquare
             font-scale="1.25"
@@ -30,9 +35,10 @@
       </div>
     </template>
     <EditRecipeModal
-      :recipe-id="id"
+      :id="recipe.id"
+      :last-recipe-version="lastRecipeVersion"
       :is-visible="isModalVisible"
-      :on-hide-modal="hideModal"
+      @hide-modal="hideModal"
     />
   </b-card>
 </template>
@@ -49,10 +55,10 @@
     BIconPencilSquare,
   } from "bootstrap-vue";
   import EditRecipeModal from "@/components/EditRecipeModal";
-  import { Actions } from "@/store/modules/recipes/types";
-  import { getTimeAgo } from "@/utils/index.ts";
   import { recipesModuleName } from "@/store/modules";
+  import { Actions } from "@/store/modules/recipes/types";
   import { RouteName } from "@/router/enums";
+  import { getTimeAgo, getRecipeVersion } from "@/utils";
 
   export default {
     components: {
@@ -66,33 +72,9 @@
       EditRecipeModal,
     },
     props: {
-      id: {
-        type: String,
+      recipe: {
+        type: Object,
         required: true,
-      },
-      title: {
-        type: String,
-        required: true,
-      },
-      category: {
-        type: String,
-        required: true,
-      },
-      instructions: {
-        type: String,
-        required: true,
-      },
-      image: {
-        type: String,
-        required: true,
-      },
-      updatedAt: {
-        type: Number,
-        required: true,
-      },
-      tags: {
-        type: String,
-        default: null,
       },
     },
     data() {
@@ -101,23 +83,31 @@
       };
     },
     computed: {
+      lastRecipeVersion() {
+        return getRecipeVersion(this.recipe, -1);
+      },
+      createdAtText() {
+        return getTimeAgo(this.lastRecipeVersion.createdAt);
+      },
+      tagList() {
+        return this.lastRecipeVersion.tags
+          ? this.lastRecipeVersion.tags.split(",")
+          : [];
+      },
       detailedPageLink() {
         return {
           name: RouteName.RECIPE,
-          params: { id: this.id },
+          params: { id: this.recipe.id },
         };
-      },
-      updatedAtText() {
-        return getTimeAgo(this.updatedAt);
-      },
-      tagList() {
-        return this.tags.split(",");
       },
     },
     methods: {
       ...mapActions(recipesModuleName, {
         deleteById: Actions.DELETE_RECIPE_BY_ID,
       }),
+      deleteRecipe() {
+        this.deleteById(this.recipe.id);
+      },
       openModal() {
         this.isModalVisible = true;
       },

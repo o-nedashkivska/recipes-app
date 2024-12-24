@@ -1,11 +1,15 @@
-type Recipe = {
-  id: string;
-  title: string;
-  category: string;
-  instructions: string;
-  image: string;
-  tags: string | null;
-  updatedAt: number;
+type RecipeVersion = {
+  title?: string;
+  category?: string;
+  instructions?: string;
+  image?: string;
+  tags?: string | null;
+  createdAt: number;
 };
 
-export type { Recipe };
+type Recipe = {
+  id: string;
+  versions: RecipeVersion[];
+};
+
+export type { Recipe, RecipeVersion };

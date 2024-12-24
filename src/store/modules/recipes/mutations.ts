@@ -18,32 +18,44 @@ const mutations: MutationTree<State> = {
   },
   [Mutations.ADD_RECIPE](state, newRecipe) {
     const id = uuidv4();
-    const updatedAt = Date.now();
+    const createdAt = Date.now();
 
     state.recipes = [
       ...state.recipes,
       {
-        ...newRecipe,
         id,
-        updatedAt,
-        image: newRecipe.image === "" ? DEFAULT_IMAGE : newRecipe.image,
+        versions: [
+          {
+            ...newRecipe,
+            createdAt,
+            image: newRecipe.image ?? DEFAULT_IMAGE,
+          },
+        ],
       },
     ];
   },
   [Mutations.UPDATE_RECIPE](state, updatedRecipe) {
-    const updatedAt = Date.now();
+    const createdAt = Date.now();
 
-    state.recipes = state.recipes.map((recipe) =>
-      recipe.id === updatedRecipe.id
-        ? {
-            ...recipe,
-            ...updatedRecipe,
-            updatedAt,
-            image:
-              updatedRecipe.image === "" ? DEFAULT_IMAGE : updatedRecipe.image,
-          }
-        : recipe
-    );
+    state.recipes = state.recipes.map((recipe) => {
+      if (recipe.id !== updatedRecipe.id) {
+        return recipe;
+      }
+
+      const newVersion = {
+        ...updatedRecipe,
+        createdAt,
+      };
+
+      if (updatedRecipe.image === "") {
+        newVersion.image = DEFAULT_IMAGE;
+      }
+
+      return {
+        id: recipe.id,
+        versions: [...recipe.versions, newVersion],
+      };
+    });
   },
   [Mutations.DELETE_RECIPE_BY_ID](state, id) {
     state.recipes = state.recipes.filter((recipe) => recipe.id !== id);

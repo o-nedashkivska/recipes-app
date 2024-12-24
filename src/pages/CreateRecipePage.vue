@@ -24,6 +24,6 @@
 <style scoped>
   .container {
     max-width: 600px;
-    padding: 0 30px;
+    padding: 30px 30px 0;
   }
 </style>

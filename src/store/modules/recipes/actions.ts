@@ -29,7 +29,7 @@ const actions: ActionTree<State, RootState> = {
       commit(Mutations.SET_DATA_STATUS, DataStatus.PENDING);
 
       await new Promise((resolve) => {
-        setTimeout(resolve, 1000);
+        setTimeout(resolve, 500);
       });
 
       commit(Mutations.ADD_RECIPE, newRecipe);
@@ -44,7 +44,7 @@ const actions: ActionTree<State, RootState> = {
       commit(Mutations.SET_DATA_STATUS, DataStatus.PENDING);
 
       await new Promise((resolve) => {
-        setTimeout(resolve, 1000);
+        setTimeout(resolve, 500);
       });
 
       commit(Mutations.UPDATE_RECIPE, updatedRecipe);
@@ -59,7 +59,7 @@ const actions: ActionTree<State, RootState> = {
       commit(Mutations.SET_DATA_STATUS, DataStatus.PENDING);
 
       await new Promise((resolve) => {
-        setTimeout(resolve, 1000);
+        setTimeout(resolve, 500);
       });
 
       commit(Mutations.DELETE_RECIPE_BY_ID, id);
