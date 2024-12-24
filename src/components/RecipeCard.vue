@@ -23,7 +23,7 @@
             font-scale="1.25"
             class="icon"
             variant="secondary"
-            @click="deleteById(recipe.id)"
+            @click="deleteRecipe"
           />
           <BIconPencilSquare
             font-scale="1.25"
@@ -38,7 +38,7 @@
       :id="recipe.id"
       :last-recipe-version="lastRecipeVersion"
       :is-visible="isModalVisible"
-      :on-hide-modal="hideModal"
+      @hide-modal="hideModal"
     />
   </b-card>
 </template>
@@ -105,6 +105,9 @@
       ...mapActions(recipesModuleName, {
         deleteById: Actions.DELETE_RECIPE_BY_ID,
       }),
+      deleteRecipe() {
+        this.deleteById(this.recipe.id);
+      },
       openModal() {
         this.isModalVisible = true;
       },

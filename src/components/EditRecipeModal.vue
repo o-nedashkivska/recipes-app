@@ -4,7 +4,7 @@
     title="Edit Recipe"
     hide-footer
     centered
-    @hide="onHideModal"
+    @hide="$emit('hide-modal')"
   >
     <RecipeForm
       :id="id"
@@ -36,14 +36,10 @@
         type: Boolean,
         default: false,
       },
-      onHideModal: {
-        type: Function,
-        default: () => {},
-      },
     },
     methods: {
       onSuccess() {
-        this.onHideModal();
+        this.$emit("hide-modal");
       },
     },
   };
