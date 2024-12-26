@@ -156,11 +156,7 @@
       parentRecipe() {
         const parentRecipeId = this.currentVersion.parent;
 
-        if (!parentRecipeId) {
-          return null;
-        }
-
-        return this.getRecipeById(parentRecipeId);
+        return parentRecipeId ? this.getRecipeById(parentRecipeId) : null;
       },
       parentRecipeCurrentVersion() {
         return this.parentRecipe
