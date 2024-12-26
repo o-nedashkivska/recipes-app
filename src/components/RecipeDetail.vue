@@ -57,6 +57,10 @@
           >
             {{ index + 1 }}. {{ instruction }}
           </b-card-text>
+
+          <b-card-text class="text-muted font-italic text-right">
+            {{ currentRecipeVersion.parent }}
+          </b-card-text>
           <b-card-text class="text-muted font-italic text-right">
             Created at {{ createdAtText }}
           </b-card-text>

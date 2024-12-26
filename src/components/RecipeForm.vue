@@ -27,6 +27,14 @@
       />
     </b-form-group>
 
+    <b-form-group label="Parent Recipe:" label-for="parent">
+      <b-form-select
+        id="parent"
+        v-model="form.parent"
+        :options="parentOptions"
+      />
+    </b-form-group>
+
     <b-form-group label="Instructions:" label-for="instructions">
       <b-form-textarea
         id="instructions"
@@ -58,6 +66,7 @@
   } from "bootstrap-vue";
   import { Actions } from "@/store/modules/recipes/types";
   import { recipesModuleName } from "@/store/modules";
+  import { getRecipeVersion } from "@/utils/get-recipe-version";
 
   export default {
     components: {
@@ -73,6 +82,10 @@
         type: String,
         default: "",
       },
+      defaultParent: {
+        type: String,
+        default: "",
+      },
       lastRecipeVersion: {
         type: Object,
         default: () => ({}),
@@ -84,11 +97,22 @@
     },
     data() {
       return {
-        form: { ...this.lastRecipeVersion },
+        form: {
+          ...this.lastRecipeVersion,
+          parent: this.defaultParent || this.lastRecipeVersion.parent,
+        },
       };
     },
     computed: {
-      ...mapState(recipesModuleName, ["categories", "tags"]),
+      ...mapState(recipesModuleName, ["recipes", "categories", "tags"]),
+      parentOptions() {
+        return this.recipes
+          .filter((recipe) => recipe.id !== this.id)
+          .map((recipe) => ({
+            value: recipe.id,
+            text: getRecipeVersion(recipe, -1).title,
+          }));
+      },
     },
     methods: {
       ...mapActions(recipesModuleName, {
@@ -101,7 +125,13 @@
             id: this.id,
           };
 
-          const fields = ["title", "category", "image", "instructions"];
+          const fields = [
+            "title",
+            "category",
+            "image",
+            "instructions",
+            "parent",
+          ];
 
           fields.forEach((field) => {
             if (this.lastRecipeVersion[field] !== this.form[field]) {

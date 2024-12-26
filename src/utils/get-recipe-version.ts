@@ -5,6 +5,7 @@ const requiredFields = [
   "category",
   "image",
   "instructions",
+  "parent",
 ] as (keyof RecipeVersion)[];
 
 const getRecipeVersion = (recipe: Recipe, index: number) => {
