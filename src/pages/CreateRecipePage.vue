@@ -27,7 +27,7 @@
     props: {
       parent: {
         type: String,
-        default: "",
+        default: null,
       },
     },
     computed: {

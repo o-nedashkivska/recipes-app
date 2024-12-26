@@ -3,7 +3,7 @@
     <div v-if="showSpinner" class="d-flex justify-content-center mt-5">
       <b-spinner variant="success" class="spinner" />
     </div>
-    <RecipeDetail v-else :recipe="recipe" />
+    <RecipeDetail v-else :key="$route.fullPath" :recipe="recipe" />
   </div>
 </template>
 

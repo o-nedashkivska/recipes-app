@@ -84,7 +84,7 @@
       },
       defaultParent: {
         type: String,
-        default: "",
+        default: null,
       },
       lastRecipeVersion: {
         type: Object,
@@ -106,12 +106,19 @@
     computed: {
       ...mapState(recipesModuleName, ["recipes", "categories", "tags"]),
       parentOptions() {
-        return this.recipes
+        const filteredOptions = this.recipes
           .filter((recipe) => recipe.id !== this.id)
           .map((recipe) => ({
             value: recipe.id,
             text: getRecipeVersion(recipe, -1).title,
           }));
+
+        const defaultOption = {
+          value: null,
+          text: "No parent",
+        };
+
+        return [defaultOption, ...filteredOptions];
       },
     },
     methods: {
