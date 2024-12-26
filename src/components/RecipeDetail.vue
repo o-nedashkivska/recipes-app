@@ -2,11 +2,7 @@
   <b-card no-body class="overflow-hidden recipe-detail">
     <b-row no-gutters>
       <b-col md="6">
-        <b-card-img
-          :src="currentRecipeVersion.image"
-          alt="Image"
-          class="rounded-0"
-        />
+        <b-card-img :src="currentVersion.image" alt="Image" class="rounded-0" />
       </b-col>
       <b-col md="6">
         <b-nav align="end" pills class="mt-2 mt-md-0 pt-1 pr-1">
@@ -14,7 +10,7 @@
             Delete Recipe
           </b-button>
           <b-dropdown
-            :text="currentRecipeVersionLabel"
+            :text="currentVersionLabel"
             variant="primary"
             class="ml-2"
             right
@@ -31,14 +27,12 @@
           </b-dropdown>
         </b-nav>
 
-        <b-card-body :title="currentRecipeVersion.title">
-          <b-card-text>
-            Category: {{ currentRecipeVersion.category }}
-          </b-card-text>
-          <b-card-text v-if="currentRecipeVersion.tags">
+        <b-card-body :title="currentVersion.title">
+          <b-card-text>Category: {{ currentVersion.category }}</b-card-text>
+          <b-card-text v-if="currentVersion.tags">
             Tags:
             <b-badge
-              v-for="tag in currentRecipeVersion.tags.split(',')"
+              v-for="tag in currentVersion.tags.split(',')"
               :key="tag"
               variant="warning"
               class="mr-1"
@@ -50,15 +44,25 @@
             <strong>Instructions:</strong>
           </b-card-text>
           <b-card-text
-            v-for="(
-              instruction, index
-            ) in currentRecipeVersion.instructions.split('\r\n')"
+            v-for="(instruction, index) in currentVersion.instructions.split(
+              '\r\n'
+            )"
             :key="index"
           >
             {{ index + 1 }}. {{ instruction }}
           </b-card-text>
+
+          <b-card-text
+            v-if="parentRecipe"
+            class="text-muted font-italic text-right mb-0"
+          >
+            Created from
+            <b-link :to="parentRecipePageLink">
+              {{ parentRecipeCurrentVersion?.title }}
+            </b-link>
+          </b-card-text>
           <b-card-text class="text-muted font-italic text-right">
-            Created at {{ createdAtText }}
+            Created at {{ currentVersionCreatedAtText }}
           </b-card-text>
         </b-card-body>
       </b-col>
@@ -67,7 +71,7 @@
 </template>
 
 <script>
-  import { mapActions } from "vuex";
+  import { mapGetters, mapActions } from "vuex";
   import {
     BCard,
     BCardText,
@@ -80,9 +84,10 @@
     BDropdown,
     BDropdownItem,
     BButton,
+    BLink,
   } from "bootstrap-vue";
   import { recipesModuleName } from "@/store/modules";
-  import { Actions } from "@/store/modules/recipes/types";
+  import { Getters, Actions } from "@/store/modules/recipes/types";
   import { RouteName } from "@/router/enums";
   import { formatDateAndTime, getTimeAgo, getRecipeVersion } from "@/utils";
 
@@ -99,6 +104,7 @@
       BDropdown,
       BDropdownItem,
       BButton,
+      BLink,
     },
     props: {
       recipe: {
@@ -108,41 +114,60 @@
     },
     data() {
       return {
-        currentRecipeVersionIndex: -1,
+        currentVersionIndex: -1,
       };
     },
     computed: {
+      ...mapGetters(recipesModuleName, {
+        getRecipeById: Getters.GET_RECIPE_BY_ID,
+      }),
       versions() {
         return this.recipe.versions.map((version, index, versions) => {
           return {
             ...version,
             label: formatDateAndTime(version.createdAt),
             isActive:
-              index === this.currentRecipeVersionIndex ||
-              (this.currentRecipeVersionIndex === -1 &&
+              index === this.currentVersionIndex ||
+              (this.currentVersionIndex === -1 &&
                 index === versions.length - 1),
           };
         });
       },
-      currentRecipeVersion() {
-        return getRecipeVersion(this.recipe, this.currentRecipeVersionIndex);
+      currentVersion() {
+        return getRecipeVersion(this.recipe, this.currentVersionIndex);
       },
-      currentRecipeVersionLabel() {
+      currentVersionLabel() {
         if (
-          this.currentRecipeVersionIndex === -1 ||
-          this.currentRecipeVersionIndex === this.versions.length - 1
+          this.currentVersionIndex === -1 ||
+          this.currentVersionIndex === this.versions.length - 1
         ) {
           return "Latest Version";
         }
 
-        if (this.currentRecipeVersionIndex === 0) {
+        if (this.currentVersionIndex === 0) {
           return "First Version";
         }
 
-        return this.versions[this.currentRecipeVersionIndex].label;
+        return this.versions[this.currentVersionIndex].label;
       },
-      createdAtText() {
-        return getTimeAgo(this.currentRecipeVersion.createdAt);
+      currentVersionCreatedAtText() {
+        return getTimeAgo(this.currentVersion.createdAt);
+      },
+      parentRecipe() {
+        const parentRecipeId = this.currentVersion.parent;
+
+        return parentRecipeId ? this.getRecipeById(parentRecipeId) : null;
+      },
+      parentRecipeCurrentVersion() {
+        return this.parentRecipe
+          ? getRecipeVersion(this.parentRecipe, -1)
+          : null;
+      },
+      parentRecipePageLink() {
+        return {
+          name: RouteName.RECIPE,
+          params: { id: this.parentRecipe.id },
+        };
       },
     },
     methods: {
@@ -156,7 +181,7 @@
         this.deleteById(this.recipe.id);
       },
       selectVersion(index) {
-        this.currentRecipeVersionIndex = index;
+        this.currentVersionIndex = index;
       },
     },
   };

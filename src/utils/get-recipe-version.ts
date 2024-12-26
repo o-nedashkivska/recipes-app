@@ -5,6 +5,7 @@ const requiredFields = [
   "category",
   "image",
   "instructions",
+  "parent",
 ] as (keyof RecipeVersion)[];
 
 const getRecipeVersion = (recipe: Recipe, index: number) => {
@@ -23,10 +24,10 @@ const getRecipeVersion = (recipe: Recipe, index: number) => {
       let currentIndex = index - 1;
 
       do {
-        const value = recipe.versions[currentIndex][field];
+        const recipeVersion = recipe.versions[currentIndex];
 
-        if (value) {
-          Object.assign(currentVersion, { [field]: value });
+        if (field in recipeVersion) {
+          Object.assign(currentVersion, { [field]: recipeVersion[field] });
           break;
         }
 

@@ -3,6 +3,7 @@ type RecipeVersion = {
   category?: string;
   instructions?: string;
   image?: string;
+  parent: string | null;
   tags?: string | null;
   createdAt: number;
 };

@@ -25,6 +25,9 @@
             variant="secondary"
             @click="deleteRecipe"
           />
+          <b-link :to="createRecipePageWithParentLink">
+            <BIconBack font-scale="1.25" class="icon" variant="secondary" />
+          </b-link>
           <BIconPencilSquare
             font-scale="1.25"
             class="icon"
@@ -53,6 +56,7 @@
     BBadge,
     BIconTrash,
     BIconPencilSquare,
+    BIconBack,
   } from "bootstrap-vue";
   import EditRecipeModal from "@/components/EditRecipeModal";
   import { recipesModuleName } from "@/store/modules";
@@ -69,6 +73,7 @@
       BBadge,
       BIconTrash,
       BIconPencilSquare,
+      BIconBack,
       EditRecipeModal,
     },
     props: {
@@ -98,6 +103,12 @@
         return {
           name: RouteName.RECIPE,
           params: { id: this.recipe.id },
+        };
+      },
+      createRecipePageWithParentLink() {
+        return {
+          name: RouteName.CREATE_RECIPE,
+          query: { parent: this.recipe.id },
         };
       },
     },

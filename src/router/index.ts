@@ -31,6 +31,7 @@ const router = new VueRouter({
     {
       path: RoutePath.CREATE_RECIPE,
       name: RouteName.CREATE_RECIPE,
+      props: (route) => ({ parent: route.query.parent }),
       component: () => import("@/pages/CreateRecipePage.vue"),
     },
     {
