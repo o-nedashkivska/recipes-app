@@ -7,7 +7,7 @@
       "@/*": ["./src/*"]
     },
     "allowJs": true,
-    "types": ["jest"]
+    "types": ["jest", "node"]
   },
   "references": [
     {
