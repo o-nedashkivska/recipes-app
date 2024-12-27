@@ -1,9 +1,11 @@
 module.exports = {
   transform: {
-    "^.+\\.(ts|tsx)$": "ts-jest",
+    "^.+\\.ts$": "ts-jest",
+    "^.+\\.vue$": "vue-jest",
+    "^.+\\.js$": "babel-jest",
   },
   moduleNameMapper: {
     "^@/(.*)$": ["<rootDir>/src/$1"],
   },
-  silent: false,
+  testEnvironment: "jsdom",
 };

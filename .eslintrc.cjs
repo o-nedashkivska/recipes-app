@@ -8,6 +8,7 @@ module.exports = {
     "eslint:recommended",
     "@vue/eslint-config-prettier",
     "@vue/eslint-config-typescript",
+    "eslint-plugin-jest",
   ],
   rules: {
     "prettier/prettier": "off",
