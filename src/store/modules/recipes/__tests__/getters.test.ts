@@ -16,62 +16,96 @@ const { GET_RECIPE_BY_ID, IS_LOADING } = Getters;
 
 describe("getters", () => {
   describe("GET_RECIPE_BY_ID", () => {
-    const recipeId = "some-test-id";
+    it("should return existing recipe by its id", () => {
+      const recipeId = "some-test-id";
 
-    const state = {
-      ...rootState.recipes,
-      recipes: [{ id: recipeId, versions: [] }],
-    };
+      const state = {
+        ...rootState.recipes,
+        recipes: [{ id: recipeId, versions: [] }],
+      };
 
-    const getRecipeById = getters[GET_RECIPE_BY_ID](state, {}, rootState, {});
-
-    it("returns existing recipe by its id", () => {
-      const recipe = getRecipeById(recipeId);
+      const recipe = getters[GET_RECIPE_BY_ID](
+        state,
+        undefined,
+        rootState,
+        undefined
+      )(recipeId);
 
       expect(recipe).toBeDefined();
       expect(recipe.id).toBe(recipeId);
     });
 
-    it("returns undefined if nonexistent recipe id is provided", () => {
+    it("should return undefined if nonexistent recipe id is provided", () => {
+      const recipeId = "some-test-id";
       const incorrectRecipeId = "some-test-id2";
 
-      const recipe = getRecipeById(incorrectRecipeId);
+      const state = {
+        ...rootState.recipes,
+        recipes: [{ id: recipeId, versions: [] }],
+      };
+
+      const recipe = getters[GET_RECIPE_BY_ID](
+        state,
+        undefined,
+        rootState,
+        undefined
+      )(incorrectRecipeId);
 
       expect(recipe).toBeUndefined();
     });
   });
 
   describe("IS_LOADING", () => {
-    it("returns true when dataStatus is idle", () => {
+    it("should return true when dataStatus is idle", () => {
       const state = { ...rootState.recipes };
 
-      const result = getters[IS_LOADING](state, {}, rootState, {});
+      const result = getters[IS_LOADING](
+        state,
+        undefined,
+        rootState,
+        undefined
+      );
 
-      expect(result).toBeTruthy();
+      expect(result).toBe(true);
     });
 
-    it("returns true when dataStatus is pending", () => {
+    it("should return true when dataStatus is pending", () => {
       const state = { ...rootState.recipes, dataStatus: DataStatus.PENDING };
 
-      const result = getters[IS_LOADING](state, {}, rootState, {});
+      const result = getters[IS_LOADING](
+        state,
+        undefined,
+        rootState,
+        undefined
+      );
 
-      expect(result).toBeTruthy();
+      expect(result).toBe(true);
     });
 
-    it("returns false when dataStatus is fulfilled", () => {
+    it("should return false when dataStatus is fulfilled", () => {
       const state = { ...rootState.recipes, dataStatus: DataStatus.FULFILLED };
 
-      const result = getters[IS_LOADING](state, {}, rootState, {});
+      const result = getters[IS_LOADING](
+        state,
+        undefined,
+        rootState,
+        undefined
+      );
 
-      expect(result).toBeFalsy();
+      expect(result).toBe(false);
     });
 
-    it("returns false when dataStatus is rejected", () => {
+    it("should return false when dataStatus is rejected", () => {
       const state = { ...rootState.recipes, dataStatus: DataStatus.REJECTED };
 
-      const result = getters[IS_LOADING](state, {}, rootState, {});
+      const result = getters[IS_LOADING](
+        state,
+        undefined,
+        rootState,
+        undefined
+      );
 
-      expect(result).toBeFalsy();
+      expect(result).toBe(false);
     });
   });
 });
