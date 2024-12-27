@@ -14,11 +14,6 @@ describe("actions", () => {
   describe("FETCH_ALL_RECIPES", () => {
     let commit: typeof jest.fn;
 
-    const fetchAllRecipes = actions[FETCH_ALL_RECIPES] as ActionHandler<
-      State,
-      RootState
-    >;
-
     beforeEach(() => {
       commit = jest.fn();
     });
@@ -27,11 +22,17 @@ describe("actions", () => {
       jest.restoreAllMocks();
     });
 
-    it("commits set recipes mutation if there was no error", async () => {
+    it("should fetch recipes collection", async () => {
+      const fetchAllRecipes = actions[FETCH_ALL_RECIPES] as ActionHandler<
+        State,
+        RootState
+      >;
+
       await fetchAllRecipes.call(storeContext, {
         commit,
       } as unknown as ActionContext<State, RootState>);
 
+      expect(commit).toHaveBeenCalledTimes(3);
       expect(commit).toHaveBeenCalledWith(
         Mutations.SET_DATA_STATUS,
         DataStatus.PENDING
@@ -41,20 +42,25 @@ describe("actions", () => {
         Mutations.SET_DATA_STATUS,
         DataStatus.FULFILLED
       );
-      expect(commit).toHaveBeenCalledTimes(3);
     });
 
-    it("commits set error mutation if error is thrown", async () => {
+    it("should throw an error during recipes fetch", async () => {
       const error = new Error("Some Error");
 
       jest.spyOn(global, "setTimeout").mockImplementationOnce(() => {
         throw error;
       });
 
+      const fetchAllRecipes = actions[FETCH_ALL_RECIPES] as ActionHandler<
+        State,
+        RootState
+      >;
+
       await fetchAllRecipes.call(storeContext, {
         commit,
       } as unknown as ActionContext<State, RootState>);
 
+      expect(commit).toHaveBeenCalledTimes(3);
       expect(commit).toHaveBeenCalledWith(
         Mutations.SET_DATA_STATUS,
         DataStatus.PENDING
@@ -64,20 +70,12 @@ describe("actions", () => {
         Mutations.SET_DATA_STATUS,
         DataStatus.REJECTED
       );
-      expect(commit).toHaveBeenCalledTimes(3);
+      expect(commit).not.toHaveBeenCalledWith(Mutations.SET_RECIPES);
     });
   });
 
   describe("ADD_RECIPE", () => {
     let commit: typeof jest.fn;
-
-    const addRecipe = actions[ADD_RECIPE] as ActionHandler<State, RootState>;
-
-    const newRecipe = {
-      title: "Some title",
-      category: "Some category",
-      instructions: "1. Step 1; 2. Step 2",
-    };
 
     beforeEach(() => {
       commit = jest.fn();
@@ -87,13 +85,22 @@ describe("actions", () => {
       jest.restoreAllMocks();
     });
 
-    it("commits add recipe mutation if there was no error", async () => {
+    it("should add recipe", async () => {
+      const newRecipe = {
+        title: "Some title",
+        category: "Some category",
+        instructions: "1. Step 1; 2. Step 2",
+      };
+
+      const addRecipe = actions[ADD_RECIPE] as ActionHandler<State, RootState>;
+
       await addRecipe.call(
         storeContext,
         { commit } as unknown as ActionContext<State, RootState>,
         newRecipe
       );
 
+      expect(commit).toHaveBeenCalledTimes(3);
       expect(commit).toHaveBeenCalledWith(
         Mutations.SET_DATA_STATUS,
         DataStatus.PENDING
@@ -103,15 +110,22 @@ describe("actions", () => {
         Mutations.SET_DATA_STATUS,
         DataStatus.FULFILLED
       );
-      expect(commit).toHaveBeenCalledTimes(3);
     });
 
-    it("commits set error mutation if error is thrown", async () => {
+    it("should not add recipe if error is thrown", async () => {
+      const newRecipe = {
+        title: "Some title",
+        category: "Some category",
+        instructions: "1. Step 1; 2. Step 2",
+      };
+
       const error = new Error("Some Error");
 
       jest.spyOn(global, "setTimeout").mockImplementationOnce(() => {
         throw error;
       });
+
+      const addRecipe = actions[ADD_RECIPE] as ActionHandler<State, RootState>;
 
       await addRecipe.call(
         storeContext,
@@ -119,6 +133,7 @@ describe("actions", () => {
         newRecipe
       );
 
+      expect(commit).toHaveBeenCalledTimes(3);
       expect(commit).toHaveBeenCalledWith(
         Mutations.SET_DATA_STATUS,
         DataStatus.PENDING
@@ -128,23 +143,12 @@ describe("actions", () => {
         Mutations.SET_DATA_STATUS,
         DataStatus.REJECTED
       );
-      expect(commit).toHaveBeenCalledTimes(3);
+      expect(commit).not.toHaveBeenCalledWith(Mutations.ADD_RECIPE, newRecipe);
     });
   });
 
   describe("UPDATE_RECIPE", () => {
     let commit: typeof jest.fn;
-
-    const updateRecipe = actions[UPDATE_RECIPE] as ActionHandler<
-      State,
-      RootState
-    >;
-
-    const updatedRecipe = {
-      title: "Some title",
-      category: "Some category",
-      instructions: "1. Step 1; 2. Step 2",
-    };
 
     beforeEach(() => {
       commit = jest.fn();
@@ -154,13 +158,25 @@ describe("actions", () => {
       jest.restoreAllMocks();
     });
 
-    it("commits update recipe mutation if there was no error", async () => {
+    it("should update recipe", async () => {
+      const updatedRecipe = {
+        title: "Some title",
+        category: "Some category",
+        instructions: "1. Step 1; 2. Step 2",
+      };
+
+      const updateRecipe = actions[UPDATE_RECIPE] as ActionHandler<
+        State,
+        RootState
+      >;
+
       await updateRecipe.call(
         storeContext,
         { commit } as unknown as ActionContext<State, RootState>,
         updatedRecipe
       );
 
+      expect(commit).toHaveBeenCalledTimes(3);
       expect(commit).toHaveBeenCalledWith(
         Mutations.SET_DATA_STATUS,
         DataStatus.PENDING
@@ -173,15 +189,25 @@ describe("actions", () => {
         Mutations.SET_DATA_STATUS,
         DataStatus.FULFILLED
       );
-      expect(commit).toHaveBeenCalledTimes(3);
     });
 
-    it("commits set error mutation if error is thrown", async () => {
+    it("should not update recipe if error is thrown", async () => {
+      const updatedRecipe = {
+        title: "Some title",
+        category: "Some category",
+        instructions: "1. Step 1; 2. Step 2",
+      };
+
       const error = new Error("Some Error");
 
       jest.spyOn(global, "setTimeout").mockImplementationOnce(() => {
         throw error;
       });
+
+      const updateRecipe = actions[UPDATE_RECIPE] as ActionHandler<
+        State,
+        RootState
+      >;
 
       await updateRecipe.call(
         storeContext,
@@ -189,6 +215,7 @@ describe("actions", () => {
         updatedRecipe
       );
 
+      expect(commit).toHaveBeenCalledTimes(3);
       expect(commit).toHaveBeenCalledWith(
         Mutations.SET_DATA_STATUS,
         DataStatus.PENDING
@@ -198,17 +225,15 @@ describe("actions", () => {
         Mutations.SET_DATA_STATUS,
         DataStatus.REJECTED
       );
-      expect(commit).toHaveBeenCalledTimes(3);
+      expect(commit).not.toHaveBeenCalledWith(
+        Mutations.UPDATE_RECIPE,
+        updatedRecipe
+      );
     });
   });
 
   describe("DELETE_RECIPE_BY_ID", () => {
     let commit: typeof jest.fn;
-
-    const deleteRecipeById = actions[DELETE_RECIPE_BY_ID] as ActionHandler<
-      State,
-      RootState
-    >;
 
     const recipeId = "some-id";
 
@@ -220,13 +245,19 @@ describe("actions", () => {
       jest.restoreAllMocks();
     });
 
-    it("commits delete recipe mutation if there was no error", async () => {
+    it("should delete recipe", async () => {
+      const deleteRecipeById = actions[DELETE_RECIPE_BY_ID] as ActionHandler<
+        State,
+        RootState
+      >;
+
       await deleteRecipeById.call(
         storeContext,
         { commit } as unknown as ActionContext<State, RootState>,
         recipeId
       );
 
+      expect(commit).toHaveBeenCalledTimes(3);
       expect(commit).toHaveBeenCalledWith(
         Mutations.SET_DATA_STATUS,
         DataStatus.PENDING
@@ -239,15 +270,19 @@ describe("actions", () => {
         Mutations.SET_DATA_STATUS,
         DataStatus.FULFILLED
       );
-      expect(commit).toHaveBeenCalledTimes(3);
     });
 
-    it("commits set error mutation if error is thrown", async () => {
+    it("should not delete recipe if error is thrown", async () => {
       const error = new Error("Some Error");
 
       jest.spyOn(global, "setTimeout").mockImplementationOnce(() => {
         throw error;
       });
+
+      const deleteRecipeById = actions[DELETE_RECIPE_BY_ID] as ActionHandler<
+        State,
+        RootState
+      >;
 
       await deleteRecipeById.call(
         storeContext,
@@ -255,6 +290,7 @@ describe("actions", () => {
         recipeId
       );
 
+      expect(commit).toHaveBeenCalledTimes(3);
       expect(commit).toHaveBeenCalledWith(
         Mutations.SET_DATA_STATUS,
         DataStatus.PENDING
@@ -264,7 +300,10 @@ describe("actions", () => {
         Mutations.SET_DATA_STATUS,
         DataStatus.REJECTED
       );
-      expect(commit).toHaveBeenCalledTimes(3);
+      expect(commit).not.toHaveBeenCalledWith(
+        Mutations.DELETE_RECIPE_BY_ID,
+        recipeId
+      );
     });
   });
 });
