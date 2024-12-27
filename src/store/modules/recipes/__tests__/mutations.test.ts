@@ -34,7 +34,7 @@ const idRegexp = new RegExp(
 
 describe("mutations", () => {
   describe("SET_RECIPES", () => {
-    it("sets correct recipes", () => {
+    it("should set correct recipes", () => {
       const state = {
         ...rootState.recipes,
       };
@@ -51,7 +51,7 @@ describe("mutations", () => {
   });
 
   describe("SET_DATA_STATUS", () => {
-    it("sets correct status", () => {
+    it("should set correct status", () => {
       const state = {
         ...rootState.recipes,
       };
@@ -65,7 +65,7 @@ describe("mutations", () => {
   });
 
   describe("SET_ERROR", () => {
-    it("sets correct error", () => {
+    it("should set correct error", () => {
       const state = {
         ...rootState.recipes,
       };
@@ -89,7 +89,7 @@ describe("mutations", () => {
       jest.restoreAllMocks();
     });
 
-    it("adds new recipe", () => {
+    it("should add new recipe", () => {
       const state: State = {
         ...rootState.recipes,
         recipes: [],
@@ -114,7 +114,7 @@ describe("mutations", () => {
       expect(versions[0]).toEqual({ ...newRecipe, createdAt: timestamp });
     });
 
-    it("adds new recipe with default image when no image was provided", () => {
+    it("should add recipe with default image", () => {
       const state: State = {
         ...rootState.recipes,
         recipes: [],
@@ -146,24 +146,39 @@ describe("mutations", () => {
       jest.restoreAllMocks();
     });
 
-    it("updates existing recipe", () => {
-      const recipe = {
-        id: "some-id",
-        versions: [
-          {
-            title: "Some title",
-            category: "Some category",
-            instructions: "1. Step 1; 2. Step 2",
-            image: "/some-image-path",
-            parent: "some-id",
-            createdAt: timestamp,
-          },
-        ],
-      };
+    it("should update existing recipe", () => {
+      const recipes = [
+        {
+          id: "id1",
+          versions: [
+            {
+              title: "Some title",
+              category: "Some category",
+              instructions: "1. Step 1; 2. Step 2",
+              image: "/some-image-path",
+              parent: "some-id",
+              createdAt: timestamp,
+            },
+          ],
+        },
+        {
+          id: "id2",
+          versions: [
+            {
+              title: "Some title",
+              category: "Some category",
+              instructions: "1. Step 1; 2. Step 2",
+              image: "/some-image-path",
+              parent: "some-id",
+              createdAt: timestamp,
+            },
+          ],
+        },
+      ];
 
       const state: State = {
         ...rootState.recipes,
-        recipes: [recipe],
+        recipes,
       };
 
       const updatedRecipeData = {
@@ -171,45 +186,77 @@ describe("mutations", () => {
         category: "Updated category",
       };
 
-      mutations[UPDATE_RECIPE](state, { ...updatedRecipeData, id: recipe.id });
+      mutations[UPDATE_RECIPE](state, {
+        ...updatedRecipeData,
+        id: recipes[0].id,
+      });
 
-      const { versions } = state.recipes[0];
+      const [firstRecipe, secondRecipe] = state.recipes;
 
-      expect(versions[0]).toEqual(recipe.versions[0]);
+      expect(firstRecipe).not.toEqual(recipes[0]);
+      expect(secondRecipe).toEqual(recipes[1]);
+
+      const { versions } = firstRecipe;
+
+      expect(versions[0]).toEqual(recipes[0].versions[0]);
       expect(versions[1]).toEqual({
         ...updatedRecipeData,
         createdAt: timestamp,
       });
     });
 
-    it("updates existing recipe and uses default image when empty string as image is provided", () => {
-      const recipe = {
-        id: "some-id",
-        versions: [
-          {
-            title: "Some title",
-            category: "Some category",
-            instructions: "1. Step 1; 2. Step 2",
-            image: "/some-image-path",
-            parent: "some-id",
-            createdAt: timestamp,
-          },
-        ],
-      };
+    it("should update existing recipe and use default image", () => {
+      const recipes = [
+        {
+          id: "id1",
+          versions: [
+            {
+              title: "Some title",
+              category: "Some category",
+              instructions: "1. Step 1; 2. Step 2",
+              image: "/some-image-path",
+              parent: "some-id",
+              createdAt: timestamp,
+            },
+          ],
+        },
+        {
+          id: "id2",
+          versions: [
+            {
+              title: "Some title",
+              category: "Some category",
+              instructions: "1. Step 1; 2. Step 2",
+              image: "/some-image-path",
+              parent: "some-id",
+              createdAt: timestamp,
+            },
+          ],
+        },
+      ];
+
       const state: State = {
         ...rootState.recipes,
-        recipes: [recipe],
+        recipes,
       };
 
       const updatedRecipeData = {
         image: "",
       };
 
-      mutations[UPDATE_RECIPE](state, { ...updatedRecipeData, id: recipe.id });
+      mutations[UPDATE_RECIPE](state, {
+        ...updatedRecipeData,
+        id: recipes[0].id,
+      });
 
-      const { versions } = state.recipes[0];
+      const [firstRecipe, secondRecipe] = state.recipes;
 
-      expect(versions[0]).toEqual(recipe.versions[0]);
+      expect(firstRecipe).not.toEqual(recipes[0]);
+      expect(secondRecipe).toEqual(recipes[1]);
+
+      const { versions } = firstRecipe;
+
+      expect(versions[0]).toEqual(recipes[0].versions[0]);
       expect(versions[1]).toEqual({
         ...updatedRecipeData,
         image: DEFAULT_IMAGE,
@@ -219,33 +266,48 @@ describe("mutations", () => {
   });
 
   describe("DELETE_RECIPE_BY_ID", () => {
-    it("deletes existing recipe by its id", () => {
-      const recipeId = "some-test-id";
-
-      const state = {
-        ...rootState.recipes,
-        recipes: [{ id: recipeId, versions: [] }],
+    it("should delete existing recipe by its id", () => {
+      const recipe1 = {
+        id: "id1",
+        versions: [],
+      };
+      const recipe2 = {
+        id: "id2",
+        versions: [],
       };
 
-      mutations[DELETE_RECIPE_BY_ID](state, recipeId);
+      const state = {
+        ...rootState.recipes,
+        recipes: [recipe1, recipe2],
+      };
 
-      expect(state.recipes).toHaveLength(0);
+      mutations[DELETE_RECIPE_BY_ID](state, recipe1.id);
+
+      expect(state.recipes).toHaveLength(1);
+      expect(state.recipes).not.toContain(recipe1);
+      expect(state.recipes).toContain(recipe2);
     });
 
-    it("does nothing if nonexistent id provided", () => {
-      const recipeId = "some-test-id";
-
-      const recipe = { id: recipeId, versions: [] };
+    it("should do nothing if nonexistent id is provided", () => {
+      const recipe1 = {
+        id: "id1",
+        versions: [],
+      };
+      const recipe2 = {
+        id: "id2",
+        versions: [],
+      };
 
       const state = {
         ...rootState.recipes,
-        recipes: [recipe],
+        recipes: [recipe1, recipe2],
       };
 
       mutations[DELETE_RECIPE_BY_ID](state, "invalid-id");
 
-      expect(state.recipes).toHaveLength(1);
-      expect(state.recipes[0]).toBe(recipe);
+      expect(state.recipes).toHaveLength(2);
+      expect(state.recipes).toContain(recipe1);
+      expect(state.recipes).toContain(recipe2);
     });
   });
 });
