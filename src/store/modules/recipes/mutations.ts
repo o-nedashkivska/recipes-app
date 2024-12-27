@@ -4,7 +4,7 @@ import type { State } from "./types";
 
 import type { MutationTree } from "vuex";
 
-const DEFAULT_IMAGE = "/recipe-default-image.png";
+export const DEFAULT_IMAGE = "/recipe-default-image.png";
 
 const mutations: MutationTree<State> = {
   [Mutations.SET_RECIPES](state, recipes) {
@@ -36,18 +36,19 @@ const mutations: MutationTree<State> = {
   },
   [Mutations.UPDATE_RECIPE](state, updatedRecipe) {
     const createdAt = Date.now();
+    const { id, ...updatedRecipeData } = updatedRecipe;
 
     state.recipes = state.recipes.map((recipe) => {
-      if (recipe.id !== updatedRecipe.id) {
+      if (recipe.id !== id) {
         return recipe;
       }
 
       const newVersion = {
-        ...updatedRecipe,
+        ...updatedRecipeData,
         createdAt,
       };
 
-      if (updatedRecipe.image === "") {
+      if (updatedRecipeData.image === "") {
         newVersion.image = DEFAULT_IMAGE;
       }
 
